@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Official marketplace for persistent-planning - Persistent markdown-based planning for Claude Code. Context engineering pattern with task directories, progress tracking, and working memory that persists across sessions.",
-    "version": "3.4.2"
+    "version": "3.5.0"
   },
   "plugins": [
     {
       "name": "persistent-planning",
       "description": "Persistent markdown-based planning for Claude Code. Uses on-disk markdown files as working memory for planning, progress tracking, and knowledge storage. Plans persist across sessions and support multiple concurrent tasks.",
-      "version": "3.4.2",
+      "version": "3.5.0",
       "author": {
         "name": "TheGlitchKing"
       },

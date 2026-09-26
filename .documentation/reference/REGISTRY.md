@@ -3,7 +3,7 @@ title: Reference Registry
 tier: reference
 domains: [reference]
 status: active
-last_updated: '2026-09-04'
+last_updated: '2026-09-26'
 version: '1.0.0'
 purpose: Quick reference for reference documentation
 ---
@@ -52,4 +52,4 @@ purpose: Quick reference for reference documentation
 
 ---
 
-*Last updated: 2026-09-04*
+*Last updated: 2026-09-26*

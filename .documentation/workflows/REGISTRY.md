@@ -3,7 +3,7 @@ title: Workflows Registry
 tier: reference
 domains: [workflows]
 status: active
-last_updated: '2026-09-04'
+last_updated: '2026-09-26'
 version: '1.0.0'
 purpose: Quick reference for workflows documentation
 ---
@@ -35,4 +35,4 @@ purpose: Quick reference for workflows documentation
 
 ---
 
-*Last updated: 2026-09-04*
+*Last updated: 2026-09-26*

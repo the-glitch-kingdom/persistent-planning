@@ -32,8 +32,9 @@ fixed in 3.2.0.
 A generated `task_plan.md` ends at Phase 4. A correct one ends:
 
 ```
-- [ ] Phase 5: Validate success through comprehensive testing (MANDATORY)
-- [ ] Phase 6: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)
+- [ ] Phase 5: Cleanup -- remove junk and unused code this work created: scratch/test scripts, debug files, probe logging, one-off test functions, commented-out code, dead code from abandoned approaches (MANDATORY)
+- [ ] Phase 6: Validate success through comprehensive testing (MANDATORY)
+- [ ] Phase 7: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)
 ```
 
 and carries an `## On Completion` section naming `/plan-status` and `/archive-plan`.

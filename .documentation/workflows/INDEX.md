@@ -3,7 +3,7 @@ title: Workflows Documentation Index
 tier: reference
 domains: [workflows]
 status: active
-last_updated: '2026-09-04'
+last_updated: '2026-09-26'
 version: '1.0.0'
 purpose: Complete listing of workflows documentation
 ---
@@ -40,4 +40,4 @@ This domain covers: workflow, workflows, process, processes, flow, flowchart, se
 
 ---
 
-*Last updated: 2026-09-04*
+*Last updated: 2026-09-26*
