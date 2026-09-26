@@ -105,12 +105,18 @@ if [ ! -f "$TASK_PLAN_FILE" ]; then
 - [ ] Phase 2: Research/gather information
 - [ ] Phase 3: Execute/build
 - [ ] Phase 4: Review and deliver
-- [ ] Phase 5: Validate success through comprehensive testing (MANDATORY)
-- [ ] Phase 6: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)
+- [ ] Phase 5: Cleanup -- remove junk and unused code this work created: scratch/test scripts, debug files, probe logging, one-off test functions, commented-out code, dead code from abandoned approaches (MANDATORY)
+- [ ] Phase 6: Validate success through comprehensive testing (MANDATORY)
+- [ ] Phase 7: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)
 
-> Phases 5 and 6 are mandatory and MUST stay the last two phases of this plan.
+> Phases 5, 6 and 7 are mandatory and MUST stay the last three phases of this plan.
 > Insert new work above them; never after. Renumber them if you add phases.
 >
+> - **Cleanup**: remove what this work left behind -- scratch and test scripts, temp
+>   output, debug logging, one-off test functions, commented-out code, and code,
+>   imports or dependencies left unused by abandoned approaches. Only what this work
+>   changed; never refactor code it did not touch. When unsure, note it -- don't delete.
+>   Cleanup runs before validation so every deletion is proven safe by the tests.
 > - **Validate success**: prove the work with tests that fail if the change breaks.
 > - **Documentation pass**: create/update/deprecate every doc this change touches --
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.

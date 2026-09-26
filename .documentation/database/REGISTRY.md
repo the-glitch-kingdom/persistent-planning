@@ -3,7 +3,7 @@ title: Database Registry
 tier: reference
 domains: [database]
 status: active
-last_updated: '2026-09-04'
+last_updated: '2026-09-26'
 version: '1.0.0'
 purpose: Quick reference for database documentation
 ---
@@ -35,4 +35,4 @@ purpose: Quick reference for database documentation
 
 ---
 
-*Last updated: 2026-09-04*
+*Last updated: 2026-09-26*

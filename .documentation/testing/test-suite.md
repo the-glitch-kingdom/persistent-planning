@@ -34,7 +34,7 @@ its subject.
 
 The suite is also the thing that makes the
 [mandatory closing phases](../standards/mandatory-closing-phases.md) enforceable rather than
-aspirational: a template edit that pushes a checkbox below the closing pair turns
+aspirational: a template edit that pushes a checkbox below the closing group turns
 the suite red.
 
 ## How to run it
@@ -51,8 +51,8 @@ is non-zero if anything failed, so it drops into CI unchanged.
 
 | Group | Asserts |
 |---|---|
-| sm mode | `task_plan.md` + `notes.md` land at the slugified path; the plan seeds 6 phases; validation is second-to-last and documentation is last; the ordering rule text is present; the task name is substituted; re-running does not clobber an edited plan |
-| lg mode | `detect-mode.sh` honors the `workspace.json` override; `phase.md` + `notes.md` are created; the two closing tasks are last and in order; HEWTD `tier: plan` frontmatter is present; no `PLACEHOLDER` tokens survive rendering; `task.md` is created with the right `parent:`; atom `sequence:` auto-increments 1 → 2 |
+| sm mode | `task_plan.md` + `notes.md` land at the slugified path; the plan seeds 7 phases; cleanup is third-to-last, validation second-to-last, documentation last; the ordering rule text is present; the task name is substituted; re-running does not clobber an edited plan |
+| lg mode | `detect-mode.sh` honors the `workspace.json` override; `phase.md` + `notes.md` are created; the three closing tasks are last and in order; HEWTD `tier: plan` frontmatter is present; no `PLACEHOLDER` tokens survive rendering; `task.md` is created with the right `parent:`; atom `sequence:` auto-increments 1 → 2 |
 | mode guards | `init-phase.sh` exits non-zero in sm mode |
 
 Every test runs the real script against a throwaway `CLAUDE_PROJECT_DIR` created

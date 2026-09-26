@@ -21,13 +21,19 @@ Tasks with no inter-dependencies can be marked `parallelizable: true` in their f
 so subagent teams can pick them up concurrently.]
 
 _(no tasks yet — run `/start-task "Task name" --parent PHASE_SLUG_PLACEHOLDER`)_
+- [ ] **Cleanup — remove junk and unused code** (`cleanup-remove-junk-and-unused-code`) (MANDATORY — third-to-last)
 - [ ] **Validate success through comprehensive testing** (`validate-success-through-comprehensive-testing`) (MANDATORY — second-to-last)
 - [ ] **Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc..** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
 
-> The two mandatory closing tasks above MUST remain the last two tasks of this phase.
-> Add new tasks above them; never after. A phase cannot be marked `done` until both are
-> `done`, and neither may be `parallelizable` — they gate on everything before them.
+> The three mandatory closing tasks above MUST remain the last three tasks of this phase.
+> Add new tasks above them; never after. A phase cannot be marked `done` until all three
+> are `done`, and none may be `parallelizable` — they gate on everything before them.
 >
+> - **Cleanup**: remove what this phase left behind — scratch and test scripts, temp
+>   output, debug logging, one-off test functions, commented-out code, and code, imports
+>   or dependencies left unused by abandoned approaches. Only what this phase changed;
+>   never refactor code it did not touch. It runs before validation so the tests prove
+>   every deletion safe.
 > - **Validate success**: prove the phase's work with tests that fail if it breaks.
 > - **Documentation pass**: create/update/deprecate every doc this phase touches —
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.

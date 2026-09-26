@@ -60,9 +60,14 @@ assert_file "$WS/.planning/refactor-auth-system/notes.md" "notes.md created"
 
 if [[ -f "$PLAN" ]]; then
   mapfile -t PHASES < <(checkbox_lines "$PLAN" "## Phases")
-  assert_eq 6 "${#PHASES[@]}" "sm plan seeds 6 phases"
+  assert_eq 7 "${#PHASES[@]}" "sm plan seeds 7 phases"
   LAST=${PHASES[${#PHASES[@]}-1]}
   PENULT=${PHASES[${#PHASES[@]}-2]}
+  ANTEPENULT=${PHASES[${#PHASES[@]}-3]}
+  case "$ANTEPENULT" in
+    *"Cleanup"*) pass "cleanup phase is third-to-last" ;;
+    *) fail "cleanup phase is third-to-last"; printf '       got: %s\n' "$ANTEPENULT" ;;
+  esac
   case "$PENULT" in
     *"Validate success through comprehensive testing"*) pass "validation phase is second-to-last" ;;
     *) fail "validation phase is second-to-last"; printf '       got: %s\n' "$PENULT" ;;
@@ -71,7 +76,7 @@ if [[ -f "$PLAN" ]]; then
     *"Documentation pass"*) pass "documentation phase is last" ;;
     *) fail "documentation phase is last"; printf '       got: %s\n' "$LAST" ;;
   esac
-  assert_contains "$PLAN" "MUST stay the last two phases" "sm plan states the ordering rule"
+  assert_contains "$PLAN" "MUST stay the last three phases" "sm plan states the ordering rule"
   assert_contains "$PLAN" "Refactor Auth System" "task name substituted into the plan"
 fi
 
@@ -100,6 +105,11 @@ if [[ -f "$PHASE" ]]; then
   mapfile -t TASKS < <(checkbox_lines "$PHASE" "## Tasks")
   LAST=${TASKS[${#TASKS[@]}-1]}
   PENULT=${TASKS[${#TASKS[@]}-2]}
+  ANTEPENULT=${TASKS[${#TASKS[@]}-3]}
+  case "$ANTEPENULT" in
+    *"Cleanup"*) pass "phase cleanup task is third-to-last" ;;
+    *) fail "phase cleanup task is third-to-last"; printf '       got: %s\n' "$ANTEPENULT" ;;
+  esac
   case "$PENULT" in
     *"Validate success through comprehensive testing"*) pass "phase validation task is second-to-last" ;;
     *) fail "phase validation task is second-to-last"; printf '       got: %s\n' "$PENULT" ;;
@@ -108,7 +118,7 @@ if [[ -f "$PHASE" ]]; then
     *"Documentation pass"*) pass "phase documentation task is last" ;;
     *) fail "phase documentation task is last"; printf '       got: %s\n' "$LAST" ;;
   esac
-  assert_contains "$PHASE" "MUST remain the last two tasks" "phase states the ordering rule"
+  assert_contains "$PHASE" "MUST remain the last three tasks" "phase states the ordering rule"
   assert_contains "$PHASE" "tier: plan" "phase carries HEWTD plan-tier frontmatter"
   if grep -q "PLACEHOLDER" "$PHASE"; then
     fail "no unsubstituted placeholders remain in phase.md"
@@ -440,9 +450,9 @@ fi
 CLAUDE_PROJECT_DIR="$WS" bash "$LINKED" "Drift Guard" >/dev/null
 GEN="$WS/.planning/drift-guard/task_plan.md"
 assert_file "$GEN" "a plan is generated through the linked skill"
-assert_contains "$GEN" "Phase 5: Validate success through comprehensive testing (MANDATORY)" \
+assert_contains "$GEN" "Phase 6: Validate success through comprehensive testing (MANDATORY)" \
   "generated plan carries the mandatory validate phase"
-assert_contains "$GEN" "Phase 6: Documentation pass -- create/update/deprecate as many docs" \
+assert_contains "$GEN" "Phase 7: Documentation pass -- create/update/deprecate as many docs" \
   "generated plan carries the mandatory documentation phase"
 assert_contains "$GEN" "## On Completion" \
   "generated plan carries the On Completion archive block"
@@ -516,6 +526,10 @@ bash "$REPO_DIR/scripts/init-phase.sh" "Ship Widget" >/dev/null
 PHASE="$WS/.planning/ship-widget/phase.md"
 
 # --- the closers arrive as real task directories ------------------------------
+assert_file "$WS/.planning/ship-widget/cleanup-remove-junk-and-unused-code/task.md" \
+  "init-phase scaffolds the cleanup closer as a task dir"
+assert_contains "$WS/.planning/ship-widget/cleanup-remove-junk-and-unused-code/task.md" \
+  "mandatory: true" "the cleanup closer carries mandatory: true"
 assert_file "$WS/.planning/ship-widget/validate-success-through-comprehensive-testing/task.md" \
   "init-phase scaffolds the validation closer as a task dir"
 assert_file "$WS/.planning/ship-widget/documentation-pass-create-update-deprecate-docs/task.md" \
@@ -549,15 +563,17 @@ else
 fi
 
 mapfile -t TL < <(task_lines "$PHASE")
-assert_eq "5" "${#TL[@]}" "phase lists 3 tasks plus 2 closers"
+assert_eq "6" "${#TL[@]}" "phase lists 3 tasks plus 3 closers"
 case "${TL[0]}" in *"Build the widget"*) pass "tasks appear in creation order" ;;
   *) fail "tasks appear in creation order"; printf '       got: %s\n' "${TL[0]}" ;; esac
 case "${TL[2]}" in *"Polish it"*) pass "the third task lands above the closers" ;;
   *) fail "the third task lands above the closers"; printf '       got: %s\n' "${TL[2]}" ;; esac
-case "${TL[3]}" in *"Validate success through comprehensive testing"*) pass "validation closer is STILL second-to-last after mutation" ;;
-  *) fail "validation closer is STILL second-to-last after mutation"; printf '       got: %s\n' "${TL[3]}" ;; esac
-case "${TL[4]}" in *"Documentation pass"*) pass "documentation closer is STILL last after mutation" ;;
-  *) fail "documentation closer is STILL last after mutation"; printf '       got: %s\n' "${TL[4]}" ;; esac
+case "${TL[3]}" in *"Cleanup"*) pass "cleanup closer is STILL third-to-last after mutation" ;;
+  *) fail "cleanup closer is STILL third-to-last after mutation"; printf '       got: %s\n' "${TL[3]}" ;; esac
+case "${TL[4]}" in *"Validate success through comprehensive testing"*) pass "validation closer is STILL second-to-last after mutation" ;;
+  *) fail "validation closer is STILL second-to-last after mutation"; printf '       got: %s\n' "${TL[4]}" ;; esac
+case "${TL[5]}" in *"Documentation pass"*) pass "documentation closer is STILL last after mutation" ;;
+  *) fail "documentation closer is STILL last after mutation"; printf '       got: %s\n' "${TL[5]}" ;; esac
 
 # --- idempotence, including under PLANNING_FORCE ------------------------------
 bash "$REPO_DIR/scripts/init-task.sh" "Build the widget" --parent ship-widget >/dev/null 2>&1

@@ -57,17 +57,18 @@ It **anchors on the MANDATORY marker, never on line numbers.** The list is a
 human-editable surface; positions do not survive contact with editing. This is tested
 against a hand-reordered, partially-checked, annotated list.
 
-## The two closers
+## The three closers
 
-Every phase is scaffolded with both closing tasks as real directories:
+Every phase is scaffolded with all three closing tasks as real directories, in this order:
 
 ```
+<phase>/cleanup-remove-junk-and-unused-code/
 <phase>/validate-success-through-comprehensive-testing/
 <phase>/documentation-pass-create-update-deprecate-docs/
 ```
 
 Each gets `task.md` (with `mandatory: true`, `parallelizable: false`), `notes.md`,
-`atoms/`, and seeded atoms — not empty placeholders. They were previously two lines
+`atoms/`, and seeded atoms — not empty placeholders. The original two were previously lines
 of prose in `phase.md`, which made the most important tasks in every plan the only
 ones with no artifact a subagent could read and nowhere to record decisions.
 

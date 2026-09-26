@@ -125,7 +125,7 @@ planning_render_and_log \
   "NOTES_SCOPE_PLACEHOLDER=${PHASE_SLUG}" \
   "NOTES_DATE_PLACEHOLDER=${TODAY}"
 
-# Scaffold the two mandatory closing tasks as real task directories.
+# Scaffold the three mandatory closing tasks as real task directories.
 #
 # They used to exist only as two checkbox lines in phase.md, so the most important
 # tasks in every plan were the only ones with no artifact for a subagent to read and
@@ -161,6 +161,16 @@ scaffold_closer() { # <slug> <title> <atom>...
     planning_insert_list_item "${dir}/task.md" "## Atoms" "- [ ] ${atom}"
   done
 }
+
+# Cleanup comes first so validation proves every deletion safe.
+scaffold_closer \
+  "cleanup-remove-junk-and-unused-code" \
+  "Cleanup — remove junk and unused code" \
+  "Scope it: diff against where this phase started — only what this phase created or changed is in scope" \
+  "Remove scratch/test scripts, debug files, temp output and backups this phase created" \
+  "Remove probe logging, one-off test functions and commented-out code" \
+  "Remove code, helpers, imports and dependencies left unused by abandoned approaches" \
+  "Never refactor code this phase did not touch; when unsure, record it in notes.md instead of deleting"
 
 scaffold_closer \
   "validate-success-through-comprehensive-testing" \

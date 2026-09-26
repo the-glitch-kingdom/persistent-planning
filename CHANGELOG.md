@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.5.0] - 2026-09-26
+
+### Added — a mandatory cleanup closer at the end of every phase (#20)
+
+Every plan now ends with three mandatory closers instead of two:
+
+1. **Cleanup — remove junk and unused code** (new)
+2. Validate success through comprehensive testing
+3. Documentation pass
+
+Agent-driven work reliably leaves debris: scratch and test scripts, temp
+output, probe logging, one-off test functions, commented-out code, and code or
+imports left unused by abandoned approaches. None of it fails a test and none
+of it is a doc, so neither existing closer caught it.
+
+Cleanup runs *first* of the three so validation proves every deletion safe, and
+docs describe the final state. Its scope is only what the phase created or
+changed; uncertain items go in `notes.md` instead of being deleted.
+
+- **lg**: `init-phase.sh` scaffolds `cleanup-remove-junk-and-unused-code/` as a
+  real task dir with `mandatory: true` and seeded atoms, third-to-last in
+  `phase.md`. Insertion and the completion gate needed no change — new tasks
+  already land above the first `MANDATORY` entry, and `plan-status.sh` already
+  gates on every `mandatory: true` task.
+- **sm**: `task_plan.md` gains Phase 5 Cleanup; validate and docs renumber to 6
+  and 7. This is a deliberate change to the v2 sm template, as #5 was.
+
+Existing plans are untouched; they simply lack the third closer.
+
 ## [3.4.2] - 2026-09-05
 
 ### Changed — the local `update` guard moves upstream into the runtime
