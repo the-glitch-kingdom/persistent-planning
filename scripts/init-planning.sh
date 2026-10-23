@@ -136,7 +136,9 @@ if [ ! -f "$TASK_PLAN_FILE" ]; then
 > - **Documentation pass**: create/update/deprecate every doc this change touches --
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.
 >   Capture new procedures, tools, troubleshooting steps, gotchas and KB articles too.
->   Never include secrets or passwords.
+>   Never include secrets or passwords. Write the docs work into this plan when you
+>   write the plan -- don't wait to be asked. List each doc under Phase 7 by file:
+>   every doc this work creates, changes or makes stale.
 >   If hit-em-with-the-docs is installed, you MUST use it for this pass --
 >   `npx hewtd integrate <file> -a` to create, `npx hewtd archive <file>` to retire,
 >   `npx hewtd maintain --quick` to regenerate indexes. Never hand-edit INDEX.md or

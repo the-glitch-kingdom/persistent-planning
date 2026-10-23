@@ -109,10 +109,14 @@ mkdir -p "$PHASE_DIR"
 
 # The docs closer's wording depends on whether this project uses hit-em-with-the-docs.
 # Its slug never changes: the completion gate and existing plans key on it.
+# Both variants open by asking the planner to name the docs — the generic atoms alone
+# left the closer unfilled while the validation closer, which asks, got filled.
+DOCS_PLAN_ATOM="As this phase's tasks are written, add an atom here for each doc they create, change or make stale, naming the file — check the existing docs for ones this work makes wrong"
 if planning_uses_hewtd "$ROOT"; then
   DOCS_CLOSER="Documentation pass — a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes: new procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never include secrets or passwords"
   DOCS_TITLE="Documentation pass — full hit-em-with-the-docs pass"
   DOCS_ATOMS=(
+    "$DOCS_PLAN_ATOM"
     "Full hit-em-with-the-docs pass: create/update/deprecate as many docs as needed to capture all our changes"
     "Create docs with \`npx hewtd integrate <file> -a\`; retire superseded ones with \`npx hewtd archive <file>\` — never by deleting"
     "Capture every new procedure and tool: what it is, where it lives, how to run it"
@@ -128,6 +132,7 @@ else
   DOCS_CLOSER="Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.."
   DOCS_TITLE="Documentation pass — create/update/deprecate docs"
   DOCS_ATOMS=(
+    "$DOCS_PLAN_ATOM"
     "Create docs for what was built: what it is, where it lives, how it works"
     "Capture new procedures, tools, troubleshooting steps and gotchas — add a troubleshooting entry for the symptom someone will actually search for"
     "Update every existing doc this phase made wrong — a stale doc is worse than a missing one"

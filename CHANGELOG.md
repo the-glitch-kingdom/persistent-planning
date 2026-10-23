@@ -18,6 +18,9 @@ A machine-wide hewtd install does not count.
   `npx hewtd archive` / `npx hewtd audit` atoms.
 - Every variant's note now says to capture procedures, tools, troubleshooting,
   gotchas and KB articles, and never secrets or passwords.
+- The docs step asks to be filled in when the plan is written, naming each doc
+  the work creates, changes or makes stale (lg: the closer's first atom). In a
+  behaviour test, the docs closer was otherwise left generic.
 - Projects without hewtd: the sm Phase 7 line and the lg closer line are
   byte-identical to before. The slug is unchanged.
 

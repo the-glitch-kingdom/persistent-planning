@@ -44,3 +44,17 @@ reconstructing context after time away.]
 - `npm test`: **182 passed, 0 failed** (32 new asserts in the "hewtd-aware docs closer" section).
 - Gate check verified against real output: all boxes ticked in a hewtd project reads `in progress 24/24`, not COMPLETE.
 - Mutation check: forcing detection to false in both lib and sm turned **10** asserts red; restored from git.
+
+## Behaviour tests (2026-10-23)
+
+A subagent was given "Add a --json option to stats.py" in a fresh throwaway project and asked to plan it with the new scripts. The prompt said nothing about testing or docs.
+
+| Run | Testing step | Docs step |
+|---|---|---|
+| plain sm #1 | 5 task-specific checks | generic wording (correct), 1 item (README) |
+| hewtd lg #1 | 4 task-specific atoms | full hewtd wording (correct), **no task-specific atoms**: missed stale `.documentation/features/stats-cli.md` |
+| plain sm #2 (after fix) | 5 task-specific checks | 3 named items (README, usage string, "no hewtd tree") |
+| hewtd lg #2 (after fix) | 5 task-specific atoms | names `.documentation/features/stats-cli.md` + README, ahead of the hewtd atoms |
+
+Fix between runs: the `docs-closer-asks-for-named-docs-up-front` task. `npm test`: 186 passed, 0 failed.
+Caveat: the subagents ran from this repo, whose CLAUDE.md describes the closers.

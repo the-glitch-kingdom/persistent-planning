@@ -23,6 +23,7 @@ so subagent teams can pick them up concurrently.]
 - [x] **Detect hit-em-with-the-docs per project** (`detect-hit-em-with-the-docs-per-project`)
 - [x] **lg docs closer variant** (`lg-docs-closer-variant`)
 - [x] **sm docs phase variant** (`sm-docs-phase-variant`)
+- [x] **Docs closer asks for named docs up front** (`docs-closer-asks-for-named-docs-up-front`)
 - [x] **Cleanup — remove junk and unused code** (`cleanup-remove-junk-and-unused-code`) (MANDATORY — third-to-last)
 - [x] **Validate success through comprehensive testing** (`validate-success-through-comprehensive-testing`) (MANDATORY — second-to-last)
 - [x] **Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc..** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)

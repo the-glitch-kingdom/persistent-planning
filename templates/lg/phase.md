@@ -44,7 +44,9 @@ _(no tasks yet — run `/start-task "Task name" --parent PHASE_SLUG_PLACEHOLDER`
 > - **Documentation pass**: create/update/deprecate every doc this phase touches —
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.
 >   Capture new procedures, tools, troubleshooting steps, gotchas and KB articles too.
->   Never include secrets or passwords.
+>   Never include secrets or passwords. Write the docs work into this phase as you write
+>   its tasks -- don't wait to be asked. Add an atom to the documentation task for each
+>   doc they create, change or make stale, naming the file.
 >   If hit-em-with-the-docs is installed, you MUST use it for this pass --
 >   `npx hewtd integrate <file> -a` to create, `npx hewtd archive <file>` to retire,
 >   `npx hewtd maintain --quick` to regenerate indexes. Never hand-edit INDEX.md or

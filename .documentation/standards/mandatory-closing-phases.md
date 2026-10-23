@@ -122,6 +122,13 @@ in a domain and the indexes stay honest. Every variant also says to capture new
 procedures, tools, troubleshooting steps, gotchas and KB articles, and **never**
 to include secrets or passwords.
 
+Like validation, the docs step asks to be filled in when the plan is written,
+naming each doc, by file, that the work creates, changes or makes stale. sm: in the
+note under the phase list. lg: the docs closer's first atom and the `phase.md`
+note. A behaviour test showed why: without that instruction, a planner filled
+the validation closer with specific checks and left the docs closer generic. It
+missed the project's own feature doc, which the change made wrong.
+
 When the project uses hit-em-with-the-docs, the init scripts word this step for
 it rather than leaving "if installed" for Claude to work out. A project counts if
 it has a `.documentation/` tree or `.claude/hit-em-with-the-docs.json`

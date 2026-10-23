@@ -1044,6 +1044,7 @@ echo "hewtd-aware docs closer"
 HEWTD_LINE="a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes"
 OLD_SM_LINE="- [ ] Phase 7: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)"
 DOCS_SLUG="documentation-pass-create-update-deprecate-docs"
+DOCS_PLAN_ATOM="As this phase's tasks are written, add an atom here for each doc they create, change or make stale, naming the file — check the existing docs for ones this work makes wrong"
 
 no_placeholders() { # <dir> <label>
   if grep -rq PLACEHOLDER "$1"; then fail "$2"; grep -rn PLACEHOLDER "$1" | head -3
@@ -1083,6 +1084,9 @@ assert_contains "$DC" "Write KB articles" "lg hewtd: KB articles atom"
 assert_contains "$DC" "Never include secrets, passwords, tokens or keys" "lg hewtd: never-secrets atom"
 assert_contains "$DC" "npx hewtd audit" "lg hewtd: audit atom"
 no_placeholders "$WS/.planning" "lg hewtd: no placeholder left"
+assert_eq "- [ ] $DOCS_PLAN_ATOM" "$(command grep -m1 '^- \[ \]' "$DC")" \
+  "lg hewtd: the docs closer opens by asking for named docs"
+assert_contains "$PH" "naming the file" "lg: phase.md note asks for named docs up front"
 # the closer is still last after adding tasks, and still gates completion
 CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-task.sh" "Real work" --parent docs >/dev/null
 mapfile -t TL < <(task_lines "$PH")
@@ -1110,6 +1114,8 @@ if grep -qF -- "- [ ] Retire superseded docs with \`npx hewtd archive" "$DC"; th
 else pass "lg plain: no unconditional hewtd archive atom"; fi
 assert_contains "$DC" "Never include secrets, passwords, tokens or keys" "lg plain: never-secrets atom"
 assert_contains "$DC" "If hit-em-with-the-docs is installed you MUST use it" "lg plain: keeps the if-installed fallback"
+assert_eq "- [ ] $DOCS_PLAN_ATOM" "$(command grep -m1 '^- \[ \]' "$DC")" \
+  "lg plain: the docs closer opens by asking for named docs"
 no_placeholders "$WS/.planning" "lg plain: no placeholder left"
 rm -rf "$WS"
 
@@ -1119,6 +1125,7 @@ CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "Plain" >/dev
 TP="$WS/.planning/plain/task_plan.md"
 assert_eq "$OLD_SM_LINE" "$(grep 'Phase 7:' "$TP")" "sm plain: Phase 7 is byte-identical to before"
 assert_contains "$TP" "Never include secrets or passwords." "sm: the note forbids secrets"
+assert_contains "$TP" "List each doc under Phase 7 by file" "sm: the note asks for named docs up front"
 no_placeholders "$WS/.planning" "sm plain: no placeholder left"
 mkdir "$WS/.documentation"
 CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "Docs" >/dev/null
