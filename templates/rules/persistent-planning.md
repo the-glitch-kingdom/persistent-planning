@@ -13,6 +13,10 @@ teammates and subagents. The files are the working memory: read them, keep them 
 - **Create plans with the commands**, never by hand: `/start-planning`, then (team mode)
   `/start-task --parent <phase>` and `/start-atom --parent <task>`. They keep each parent's list
   in order and the closing steps last.
+- **Write the testing into the plan when you write the plan**: we need to validate success
+  thoroughly through comprehensive testing of our changes. Fill the validation step with the
+  specific checks this work needs (unit, integration, end-to-end, regression, edge cases and
+  failure paths, the full suite) before starting work, without being asked.
 - **Update as you go**: tick each box when it is done, record decisions and errors as they
   happen, and put research in `notes.md` instead of the conversation.
 - The layers are **phase → task → atom**, plus **notes** for context at phase or task level.

@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed — the validation closer asks for the tests when the plan is written
+
+The validate step now reads "we need to validate success thoroughly through
+comprehensive testing of our changes". It also tells Claude to write the
+concrete checks into the plan up front, without being asked: unit,
+integration/end-to-end, regression, edge cases and failure paths, and the full
+suite. sm: Phase 6 line and note. lg: `phase.md` note plus two new leading atoms
+on the validation task. The `persistent-planning.md` rule and SKILL.md carry it
+too. Titles and slugs are unchanged, so existing plans and the completion gate
+are unaffected.
+
 ### Added — init scripts seed `.claude/rules/`
 
 Every init script (`init-planning.sh`, `init-phase.sh`, `init-task.sh`,

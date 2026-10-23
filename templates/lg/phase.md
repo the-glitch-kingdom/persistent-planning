@@ -34,7 +34,13 @@ _(no tasks yet — run `/start-task "Task name" --parent PHASE_SLUG_PLACEHOLDER`
 >   or dependencies left unused by abandoned approaches. Only what this phase changed;
 >   never refactor code it did not touch. It runs before validation so the tests prove
 >   every deletion safe.
-> - **Validate success**: prove the phase's work with tests that fail if it breaks.
+> - **Validate success**: we need to validate success thoroughly through comprehensive
+>   testing of our changes. Write the tests into this phase as you write its tasks --
+>   don't wait to be asked. Add each check as an atom of the validation task, every kind
+>   that applies: unit tests for new and changed logic, integration and end-to-end runs
+>   through the real entry points, a regression test for the problem that prompted the
+>   work, edge cases and failure paths, and the full existing suite. Each must fail if
+>   the change breaks.
 > - **Documentation pass**: create/update/deprecate every doc this phase touches —
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.
 >   If hit-em-with-the-docs is installed, you MUST use it for this pass --

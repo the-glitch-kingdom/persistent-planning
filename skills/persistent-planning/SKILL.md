@@ -161,7 +161,7 @@ Create this file FIRST for any complex task:
 - [ ] Phase 3: Execute/build
 - [ ] Phase 4: Review and deliver
 - [ ] Phase 5: Cleanup -- remove junk and unused code this work created: scratch/test scripts, debug files, probe logging, one-off test functions, commented-out code, dead code from abandoned approaches (MANDATORY)
-- [ ] Phase 6: Validate success through comprehensive testing (MANDATORY)
+- [ ] Phase 6: Validate success through comprehensive testing -- we need to validate success thoroughly through comprehensive testing of our changes (MANDATORY)
 - [ ] Phase 7: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)
 
 > Phases 5, 6 and 7 are mandatory and MUST stay the last three phases of this plan.
@@ -172,7 +172,13 @@ Create this file FIRST for any complex task:
 >   imports or dependencies left unused by abandoned approaches. Only what this work
 >   changed; never refactor code it did not touch. When unsure, note it -- don't delete.
 >   Cleanup runs before validation so every deletion is proven safe by the tests.
-> - **Validate success**: prove the work with tests that fail if the change breaks.
+> - **Validate success**: we need to validate success thoroughly through comprehensive
+>   testing of our changes. Write the tests into this plan when you write the plan --
+>   don't wait to be asked. List each check under Phase 6, every kind that applies:
+>   unit tests for new and changed logic, integration and end-to-end runs through the
+>   real entry points, a regression test for the problem that prompted the work, edge
+>   cases and failure paths, and the full existing suite. Each must fail if the change
+>   breaks.
 > - **Documentation pass**: create/update/deprecate every doc this change touches --
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.
 >   If hit-em-with-the-docs is installed, you MUST use it for this pass --
