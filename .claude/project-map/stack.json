@@ -1,0 +1,12 @@
+{
+  "name": "@theglitchking/persistent-planning",
+  "slug": "theglitchking-persistent-planning",
+  "language": "javascript",
+  "framework": "node-generic",
+  "database": "unknown",
+  "orm": "unknown",
+  "auth": "unknown",
+  "package_manager": "npm",
+  "infrastructure": "none",
+  "project_root": "/home/tmarlette/workspace/the-glitch-kingdom/persistent-planning"
+}

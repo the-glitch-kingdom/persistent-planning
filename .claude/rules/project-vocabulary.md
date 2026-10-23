@@ -1,0 +1,25 @@
+# @theglitchking/persistent-planning — Project Vocabulary
+
+> Auto-loaded every session. Maps human language to exact code locations.
+> Regenerated automatically via pre-commit hook. Do not edit the auto-generated rows.
+
+## Feature → Code Location
+
+| You Say | Frontend | Backend | Model/Table |
+|---------|----------|---------|-------------|
+| _(vocabulary populates as source code is added)_ | | | |
+
+## Infrastructure Vocabulary
+
+| You Say | What It Is | Key Details |
+|---------|-----------|-------------|
+| project | @theglitchking/persistent-planning | javascript / node-generic stack |
+
+## Quick Actions
+
+| You Say | What To Do |
+|---------|-----------|
+| regenerate map | `python .claude/project-map/generate.py --force` |
+| grade map | `python .claude/project-map/grader.py` |
+| view project map | `cat .claude/project-map/PROJECT_MAP.md` |
+| install hooks | `bash .githooks/install.sh` |

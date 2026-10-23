@@ -1,0 +1,47 @@
+# @theglitchking/persistent-planning — Git Workflow
+
+> Auto-loaded every session. Written once by the babel-fish installer and never overwritten:
+> edit it to fit this repo.
+
+## Hard rules
+
+1. **ALWAYS branch before changing anything.** Check `git branch --show-current`. On
+   `main` or any other shared branch, run `git checkout -b <type>/<short-description>`
+   first (`feat/`, `fix/`, `docs/`, `chore/`). This covers every change, code, docs or config, however small.
+2. **NEVER push or merge to `main` without explicit permission.** The flow is
+   branch → commit → push the branch → open a PR → **stop and wait** for review and an explicit
+   go-ahead. Being asked to "commit" or "open a PR" is not permission to merge: ask separately, every time.
+3. **ALWAYS start from an up-to-date `main`**, at session start and after every merge:
+   ```bash
+   git checkout main && git fetch origin main && git merge --ff-only origin/main
+   ```
+   Then branch. Fast-forwarding your local copy after an approved merge is a read, not a push.
+4. **NEVER bypass hooks** with `--no-verify` / `-n` unless the user authorizes it for that specific
+   commit or push. If a hook blocks you, fix the violation, or ask how to handle debt that predates your change.
+5. **NEVER force-push a shared branch** or rewrite history someone else may have pulled.
+
+## Commits
+
+- Conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`.
+- The subject says what changed; the body says why and lists the areas touched.
+- One logical change per commit. Stage files by name, not `git add -A`, so stray files
+  (`.env`, local caches, scratch output) never ride along.
+
+## Pull requests
+
+- One PR per branch, against `main` (`gh pr create --base main`).
+- The description says what changed, why, and how it was tested, with real test output.
+- After opening, report the link and wait. Never merge your own PR unless told to.
+- Once it is merged: sync `main` (rule 3) and delete the branch.
+
+<!-- persistent-planning:git-workflow -->
+## Persistent plans
+
+These are hard requirements on every plan under `.planning/`:
+
+1. **Sync `main` first.** `git checkout main && git fetch origin main && git merge --ff-only origin/main`.
+2. **Cut a new branch** for the plan before changing anything: `git checkout -b <type>/<plan-slug>`.
+3. **Implement the plan through to completion**: every phase, including the mandatory cleanup,
+   validation and documentation steps, until `/plan-status` reads COMPLETE.
+4. **Commit at the end of each phase** (sm: each item under `## Phases`; lg: each task).
+5. **Finish with a single PR** for the whole plan, against `main`.

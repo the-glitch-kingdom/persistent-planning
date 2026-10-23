@@ -1,0 +1,195 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-23T17:44:56Z",
+  "source": ".claude/project-map/sections/01-vocabulary.md",
+  "project": "@theglitchking/persistent-planning",
+  "entry_count": 31,
+  "entries": [
+    {
+      "key": "/archive-plan",
+      "canonical_path": "commands/archive-plan.md",
+      "section": "command",
+      "description": "Retire a completed plan into the gitignored .planning/.archive/ directory. Refuses to archive a plan that still has unch"
+    },
+    {
+      "key": "/plan-status",
+      "canonical_path": "commands/plan-status.md",
+      "section": "command",
+      "description": "Show completion status for every plan under .planning/ — which are in progress, blocked, or complete and ready to archiv"
+    },
+    {
+      "key": "/policy",
+      "canonical_path": "commands/policy.md",
+      "section": "command",
+      "description": "Get or set the persistent-planning update policy (auto | nudge | off)"
+    },
+    {
+      "key": "/relink",
+      "canonical_path": "commands/relink.md",
+      "section": "command",
+      "description": "Re-run the skill linker — refresh symlinks from node_modules into .claude/skills/"
+    },
+    {
+      "key": "/start-atom",
+      "canonical_path": "commands/start-atom.md",
+      "section": "command",
+      "description": "Add an atom (subagent hand-off unit) under an existing task in lg-mode persistent-planning. Creates .planning/<phase>/<t"
+    },
+    {
+      "key": "/start-planning",
+      "canonical_path": "commands/start-planning.md",
+      "section": "command",
+      "description": "Initialize persistent planning structure. In sm mode (solo/small) creates .planning/[task-slug]/ with task_plan.md + not"
+    },
+    {
+      "key": "/start-task",
+      "canonical_path": "commands/start-task.md",
+      "section": "command",
+      "description": "Add a task under an existing phase in lg-mode persistent-planning. Creates .planning/<phase>/<task-slug>/{task.md, notes"
+    },
+    {
+      "key": "/status",
+      "canonical_path": "commands/status.md",
+      "section": "command",
+      "description": "Show installed version, latest available version, current update policy, and hook registration state"
+    },
+    {
+      "key": "/update",
+      "canonical_path": "commands/update.md",
+      "section": "command",
+      "description": "Update persistent-planning to the latest version (runs npm update + re-links skills)"
+    },
+    {
+      "key": "archive plan",
+      "canonical_path": "commands/archive-plan.md",
+      "section": "command",
+      "description": "Retire a completed plan into the gitignored .planning/.archive/ directory. Refuses to archive a plan that still has unch"
+    },
+    {
+      "key": "archive-plan",
+      "canonical_path": "commands/archive-plan.md",
+      "section": "command",
+      "description": "Retire a completed plan into the gitignored .planning/.archive/ directory. Refuses to archive a plan that still has unch"
+    },
+    {
+      "key": "documentation lifecycle",
+      "canonical_path": ".claude/skills/documentation-lifecycle/SKILL.md",
+      "section": "skill",
+      "description": "Create, update, retire, or reorganize documentation in a project managed by hit-em-with-the-docs (a `.documentation/` tr"
+    },
+    {
+      "key": "documentation-lifecycle",
+      "canonical_path": ".claude/skills/documentation-lifecycle/SKILL.md",
+      "section": "skill",
+      "description": "Create, update, retire, or reorganize documentation in a project managed by hit-em-with-the-docs (a `.documentation/` tr"
+    },
+    {
+      "key": "persistent planning",
+      "canonical_path": "skills/persistent-planning/SKILL.md",
+      "section": "skill",
+      "description": "Transforms workflow to use persistent markdown files for planning, progress tracking, and knowledge storage. Use when st"
+    },
+    {
+      "key": "persistent-planning",
+      "canonical_path": "skills/persistent-planning/SKILL.md",
+      "section": "skill",
+      "description": "Transforms workflow to use persistent markdown files for planning, progress tracking, and knowledge storage. Use when st"
+    },
+    {
+      "key": "plan status",
+      "canonical_path": "commands/plan-status.md",
+      "section": "command",
+      "description": "Show completion status for every plan under .planning/ — which are in progress, blocked, or complete and ready to archiv"
+    },
+    {
+      "key": "plan-status",
+      "canonical_path": "commands/plan-status.md",
+      "section": "command",
+      "description": "Show completion status for every plan under .planning/ — which are in progress, blocked, or complete and ready to archiv"
+    },
+    {
+      "key": "policy",
+      "canonical_path": "commands/policy.md",
+      "section": "command",
+      "description": "Get or set the persistent-planning update policy (auto | nudge | off)"
+    },
+    {
+      "key": "relink",
+      "canonical_path": "commands/relink.md",
+      "section": "command",
+      "description": "Re-run the skill linker — refresh symlinks from node_modules into .claude/skills/"
+    },
+    {
+      "key": "semantic first",
+      "canonical_path": ".claude/skills/semantic-first/SKILL.md",
+      "section": "skill",
+      "description": "Route documentation lookups, internal procedure questions, repo architectural/vocabulary/convention questions, and resea"
+    },
+    {
+      "key": "semantic-first",
+      "canonical_path": ".claude/skills/semantic-first/SKILL.md",
+      "section": "skill",
+      "description": "Route documentation lookups, internal procedure questions, repo architectural/vocabulary/convention questions, and resea"
+    },
+    {
+      "key": "start atom",
+      "canonical_path": "commands/start-atom.md",
+      "section": "command",
+      "description": "Add an atom (subagent hand-off unit) under an existing task in lg-mode persistent-planning. Creates .planning/<phase>/<t"
+    },
+    {
+      "key": "start planning",
+      "canonical_path": "commands/start-planning.md",
+      "section": "command",
+      "description": "Initialize persistent planning structure. In sm mode (solo/small) creates .planning/[task-slug]/ with task_plan.md + not"
+    },
+    {
+      "key": "start task",
+      "canonical_path": "commands/start-task.md",
+      "section": "command",
+      "description": "Add a task under an existing phase in lg-mode persistent-planning. Creates .planning/<phase>/<task-slug>/{task.md, notes"
+    },
+    {
+      "key": "start-atom",
+      "canonical_path": "commands/start-atom.md",
+      "section": "command",
+      "description": "Add an atom (subagent hand-off unit) under an existing task in lg-mode persistent-planning. Creates .planning/<phase>/<t"
+    },
+    {
+      "key": "start-planning",
+      "canonical_path": "commands/start-planning.md",
+      "section": "command",
+      "description": "Initialize persistent planning structure. In sm mode (solo/small) creates .planning/[task-slug]/ with task_plan.md + not"
+    },
+    {
+      "key": "start-task",
+      "canonical_path": "commands/start-task.md",
+      "section": "command",
+      "description": "Add a task under an existing phase in lg-mode persistent-planning. Creates .planning/<phase>/<task-slug>/{task.md, notes"
+    },
+    {
+      "key": "status",
+      "canonical_path": "commands/status.md",
+      "section": "command",
+      "description": "Show installed version, latest available version, current update policy, and hook registration state"
+    },
+    {
+      "key": "theglitchking persistent planning developer skill",
+      "canonical_path": ".claude/skills/theglitchking-persistent-planning-developer-skill/SKILL.md",
+      "section": "skill",
+      "description": "Full-stack developer context for @theglitchking/persistent-planning (javascript/node-generic). Provides instant access t"
+    },
+    {
+      "key": "theglitchking-persistent-planning-developer-skill",
+      "canonical_path": ".claude/skills/theglitchking-persistent-planning-developer-skill/SKILL.md",
+      "section": "skill",
+      "description": "Full-stack developer context for @theglitchking/persistent-planning (javascript/node-generic). Provides instant access t"
+    },
+    {
+      "key": "update",
+      "canonical_path": "commands/update.md",
+      "section": "command",
+      "description": "Update persistent-planning to the latest version (runs npm update + re-links skills)"
+    }
+  ]
+}
