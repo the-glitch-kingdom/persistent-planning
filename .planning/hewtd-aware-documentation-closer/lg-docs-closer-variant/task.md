@@ -3,7 +3,7 @@ title: lg docs closer variant
 tier: plan
 domains:
   - planning
-status: active
+status: done
 last_updated: "2026-10-23"
 plan_kind: task
 parent: hewtd-aware-documentation-closer
@@ -31,10 +31,10 @@ Inline checkbox vs. standalone atom file — see anti-pattern doc:
 .documentation/standards/atom-granularity.md.]
 
 or run `/start-atom "Atom name" --parent lg-docs-closer-variant` for complex ones)_
-- [ ] templates/lg/phase.md: docs closer list line becomes DOCS_CLOSER_PLACEHOLDER, filled by init-phase.sh with the default or the hewtd text
-- [ ] init-phase.sh: hewtd variant of the docs closer title and atoms (full hewtd pass, procedures, tools, troubleshooting, gotchas as KB facts, KB articles, never secrets, maintain + audit); slug unchanged
-- [ ] Default variant: drop the unconditional npx hewtd archive / audit atoms; keep the if-installed fallback; add never-secrets
-- [ ] phase.md note: capture procedures, tools, troubleshooting, gotchas, KB articles; never secrets or passwords
+- [x] templates/lg/phase.md: docs closer list line becomes DOCS_CLOSER_PLACEHOLDER, filled by init-phase.sh with the default or the hewtd text
+- [x] init-phase.sh: hewtd variant of the docs closer title and atoms (full hewtd pass, procedures, tools, troubleshooting, gotchas as KB facts, KB articles, never secrets, maintain + audit); slug unchanged
+- [x] Default variant: drop the unconditional npx hewtd archive / audit atoms; keep the if-installed fallback; add never-secrets
+- [x] phase.md note: capture procedures, tools, troubleshooting, gotchas, KB articles; never secrets or passwords
 
 ## Decisions Made
 [Task-level decisions. Format: `**Decision**: rationale`.]

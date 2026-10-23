@@ -23,7 +23,7 @@ so subagent teams can pick them up concurrently.]
 _(no tasks yet — run `/start-task "Task name" --parent PHASE_SLUG_PLACEHOLDER`)_
 - [ ] **Cleanup — remove junk and unused code** (`cleanup-remove-junk-and-unused-code`) (MANDATORY — third-to-last)
 - [ ] **Validate success through comprehensive testing** (`validate-success-through-comprehensive-testing`) (MANDATORY — second-to-last)
-- [ ] **Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc..** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
+- [ ] **DOCS_CLOSER_PLACEHOLDER** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
 
 > The three mandatory closing tasks above MUST remain the last three tasks of this phase.
 > Add new tasks above them; never after. A phase cannot be marked `done` until all three
@@ -43,6 +43,8 @@ _(no tasks yet — run `/start-task "Task name" --parent PHASE_SLUG_PLACEHOLDER`
 >   the change breaks.
 > - **Documentation pass**: create/update/deprecate every doc this phase touches —
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.
+>   Capture new procedures, tools, troubleshooting steps, gotchas and KB articles too.
+>   Never include secrets or passwords.
 >   If hit-em-with-the-docs is installed, you MUST use it for this pass --
 >   `npx hewtd integrate <file> -a` to create, `npx hewtd archive <file>` to retire,
 >   `npx hewtd maintain --quick` to regenerate indexes. Never hand-edit INDEX.md or

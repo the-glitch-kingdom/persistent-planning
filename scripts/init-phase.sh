@@ -107,6 +107,36 @@ fi
 # Create phase directory
 mkdir -p "$PHASE_DIR"
 
+# The docs closer's wording depends on whether this project uses hit-em-with-the-docs.
+# Its slug never changes: the completion gate and existing plans key on it.
+if planning_uses_hewtd "$ROOT"; then
+  DOCS_CLOSER="Documentation pass — a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes: new procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never include secrets or passwords"
+  DOCS_TITLE="Documentation pass — full hit-em-with-the-docs pass"
+  DOCS_ATOMS=(
+    "Full hit-em-with-the-docs pass: create/update/deprecate as many docs as needed to capture all our changes"
+    "Create docs with \`npx hewtd integrate <file> -a\`; retire superseded ones with \`npx hewtd archive <file>\` — never by deleting"
+    "Capture every new procedure and tool: what it is, where it lives, how to run it"
+    "Add a troubleshooting entry for the symptom someone will actually search for"
+    "Record each gotcha (a non-obvious failure with an observed fix) as a knowledge-base fact tagged \`gotcha\`, with an \`## Instead\` section"
+    "Write KB articles for anything operational under \`.documentation/knowledge-base/\`"
+    "Update every existing doc this phase made wrong — a stale doc is worse than a missing one"
+    "Never include secrets, passwords, tokens or keys in any doc"
+    "Run \`npx hewtd maintain --quick\` and \`npx hewtd audit\`; resolve every error"
+    "Never hand-edit INDEX.md or REGISTRY.md — they are generated"
+  )
+else
+  DOCS_CLOSER="Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.."
+  DOCS_TITLE="Documentation pass — create/update/deprecate docs"
+  DOCS_ATOMS=(
+    "Create docs for what was built: what it is, where it lives, how it works"
+    "Capture new procedures, tools, troubleshooting steps and gotchas — add a troubleshooting entry for the symptom someone will actually search for"
+    "Update every existing doc this phase made wrong — a stale doc is worse than a missing one"
+    "Retire superseded docs rather than leaving them wrong"
+    "Never include secrets, passwords, tokens or keys in any doc"
+    "If hit-em-with-the-docs is installed you MUST use it: \`npx hewtd integrate <file> -a\` to create, \`npx hewtd archive <file>\` to retire, \`npx hewtd maintain --quick\` to regenerate indexes"
+  )
+fi
+
 # Render phase.md
 planning_render_and_log \
   "${TEMPLATE_DIR}/phase.md" \
@@ -114,7 +144,8 @@ planning_render_and_log \
   "phase.md at ${PHASE_DIR}/phase.md" \
   "PHASE_TITLE_PLACEHOLDER=${PHASE_NAME}" \
   "PHASE_SLUG_PLACEHOLDER=${PHASE_SLUG}" \
-  "PHASE_DATE_PLACEHOLDER=${TODAY}"
+  "PHASE_DATE_PLACEHOLDER=${TODAY}" \
+  "DOCS_CLOSER_PLACEHOLDER=${DOCS_CLOSER}"
 
 # Render notes.md (scoped to the phase)
 planning_render_and_log \
@@ -184,14 +215,8 @@ scaffold_closer \
 
 scaffold_closer \
   "documentation-pass-create-update-deprecate-docs" \
-  "Documentation pass — create/update/deprecate docs" \
-  "Create docs for what was built: what it is, where it lives, how it works" \
-  "Add a troubleshooting entry for the symptom someone will actually search for" \
-  "Update every existing doc this phase made wrong — a stale doc is worse than a missing one" \
-  "Retire superseded docs with \`npx hewtd archive <file>\` — never by deleting" \
-  "If hit-em-with-the-docs is installed you MUST use it: \`npx hewtd integrate <file> -a\` to create, \`npx hewtd maintain --quick\` to regenerate indexes" \
-  "Run \`npx hewtd audit\` and resolve every error" \
-  "Never hand-edit INDEX.md or REGISTRY.md — they are generated"
+  "$DOCS_TITLE" \
+  "${DOCS_ATOMS[@]}"
 
 # Only completed plans are local history — see planning_ensure_archive_gitignored.
 planning_ensure_archive_gitignored "${ROOT}"
