@@ -450,8 +450,10 @@ fi
 CLAUDE_PROJECT_DIR="$WS" bash "$LINKED" "Drift Guard" >/dev/null
 GEN="$WS/.planning/drift-guard/task_plan.md"
 assert_file "$GEN" "a plan is generated through the linked skill"
-assert_contains "$GEN" "Phase 6: Validate success through comprehensive testing (MANDATORY)" \
+assert_contains "$GEN" "Phase 6: Validate success through comprehensive testing -- we need to validate success thoroughly through comprehensive testing of our changes (MANDATORY)" \
   "generated plan carries the mandatory validate phase"
+assert_contains "$GEN" "Write the tests into this plan when you write the plan" \
+  "generated plan tells the planner to write the tests in up front"
 assert_contains "$GEN" "Phase 7: Documentation pass -- create/update/deprecate as many docs" \
   "generated plan carries the mandatory documentation phase"
 assert_contains "$GEN" "## On Completion" \
@@ -524,6 +526,13 @@ WS=$(lg_workspace)
 export CLAUDE_PROJECT_DIR="$WS"
 bash "$REPO_DIR/scripts/init-phase.sh" "Ship Widget" >/dev/null
 PHASE="$WS/.planning/ship-widget/phase.md"
+
+# --- the validation closer asks for the tests up front -------------------------
+assert_contains "$WS/.planning/ship-widget/validate-success-through-comprehensive-testing/task.md" \
+  "We need to validate success thoroughly through comprehensive testing of our changes" \
+  "the validation closer's first atom carries the comprehensive-testing statement"
+assert_contains "$PHASE" "Write the tests into this phase as you write its tasks" \
+  "phase.md tells the planner to write the tests in up front"
 
 # --- the closers arrive as real task directories ------------------------------
 assert_file "$WS/.planning/ship-widget/cleanup-remove-junk-and-unused-code/task.md" \

@@ -105,6 +105,13 @@ change validates nothing. For this repository that means adding assertions to
 command is. Mutation-check the assertion at least once: break the thing on
 purpose, confirm the test goes red, put it back.
 
+The templates carry the sentence "we need to validate success thoroughly through
+comprehensive testing of our changes" plus an instruction to write the concrete
+checks into the plan *when the plan is written*. sm: under Phase 6. lg: as atoms of
+the validation task. Without that, a plan got a one-line testing phase and the
+user had to say the sentence afterwards to get real tests planned. The
+`persistent-planning.md` rule repeats it so it is in context every session.
+
 **Documentation pass.** Create, update, or deprecate every doc the change
 touches, answering: what it is, where it lives, how to fix it, how to operate it,
 and why it matters. Deprecation counts — a doc made wrong by the change is worse

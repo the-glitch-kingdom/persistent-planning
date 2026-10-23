@@ -175,6 +175,8 @@ scaffold_closer \
 scaffold_closer \
   "validate-success-through-comprehensive-testing" \
   "Validate success through comprehensive testing" \
+  "We need to validate success thoroughly through comprehensive testing of our changes: as this phase's tasks are written, add an atom here for each check they need" \
+  "Cover every kind that applies: unit tests for new and changed logic, integration and end-to-end runs through the real entry points, edge cases and failure paths" \
   "Prove every claim this phase makes with a test that fails if it breaks" \
   "Test the invariant after mutation, not the shape of a freshly rendered template" \
   "Cover the failure mode that prompted the work, not just the happy path" \
