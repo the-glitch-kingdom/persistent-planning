@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added — init scripts seed `.claude/rules/`
+
+Every init script (`init-planning.sh`, `init-phase.sh`, `init-task.sh`,
+`init-atom.sh`) copies each `templates/rules/*.md` into the project's
+`.claude/rules/` when that file is absent, so Claude Code loads the planning
+workflow every session instead of only when the skill triggers. Ships one rule,
+`persistent-planning.md`. A rule is written once and never overwritten — not even
+under `PLANNING_FORCE` — so a repo's edits stick; delete it and the next init
+restores it. Adding a rule is adding a file to `templates/rules/`.
+
+The same step adds a **Persistent plans** section of hard git requirements — sync
+`main`, cut a branch, implement through to completion, commit at the end of each
+phase, finish with a single PR. It is appended to the repo's existing git workflow
+rule (any `.claude/rules/` file named like `git-workflow.md` or `gitflow.md`,
+including babel-fish's) or, if there is none, creates `git-workflow.md`. A marker
+comment keeps it to one copy.
+
 ## [3.5.0] - 2026-09-26
 
 ### Added — a mandatory cleanup closer at the end of every phase (#20)

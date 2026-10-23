@@ -100,6 +100,14 @@ bash ~/.claude/skills/persistent-planning/scripts/init-planning.sh "<name>"
 
 Add tasks under a phase with `/start-task "<name>" --parent <phase-slug>`.
 
+### Both modes
+`.claude/rules/persistent-planning.md` is added if the project does not already have
+it. It is never overwritten, so edit it freely.
+
+A "Persistent plans" git section (sync main, branch, commit per phase, one PR) is
+appended once to the project's existing git workflow rule, or `.claude/rules/git-workflow.md`
+is created to hold it.
+
 ## Slug conversion
 
 Names are converted to URL-friendly slugs:

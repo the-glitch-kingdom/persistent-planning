@@ -116,6 +116,8 @@ planning_insert_list_item \
   "## Tasks" \
   "- [ ] **${TASK_NAME}** (\`${TASK_SLUG}\`)"
 
+planning_seed_rules "${ROOT}"
+
 echo ""
 planning_ok "Task '${TASK_NAME}' ready at .planning/${PARENT_PHASE}/${TASK_SLUG}/"
 echo ""
