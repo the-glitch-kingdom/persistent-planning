@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [3.6.1] - 2026-10-23
 
 ### Fixed — archived plans stayed tracked in git (#26)
 
