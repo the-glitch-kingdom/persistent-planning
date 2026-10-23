@@ -21,7 +21,7 @@ Tasks with no inter-dependencies can be marked `parallelizable: true` in their f
 so subagent teams can pick them up concurrently.]
 
 - [x] **Untrack the plan when archiving** (`untrack-the-plan-when-archiving`)
-- [ ] **Cleanup — remove junk and unused code** (`cleanup-remove-junk-and-unused-code`) (MANDATORY — third-to-last)
+- [x] **Cleanup — remove junk and unused code** (`cleanup-remove-junk-and-unused-code`) (MANDATORY — third-to-last)
 - [ ] **Validate success through comprehensive testing** (`validate-success-through-comprehensive-testing`) (MANDATORY — second-to-last)
 - [ ] **Documentation pass — a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes: new procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never include secrets or passwords** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
 

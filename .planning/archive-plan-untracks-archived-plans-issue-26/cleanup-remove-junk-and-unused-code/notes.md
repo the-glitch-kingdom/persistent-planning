@@ -38,3 +38,7 @@ reconstructing context after time away.]
 
 ### 2026-10-23 — Initialized
 - Notes file created
+
+## Findings (2026-10-23)
+
+- Nothing to remove: the change is one block in archive-plan.sh plus its comments; no scratch files were created.
