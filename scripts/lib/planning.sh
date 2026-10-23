@@ -23,6 +23,7 @@
 #   - planning_render_template "<src>" "<dest>" "PLACEHOLDER1=value1" "PLACEHOLDER2=value2" ...
 #       Renders a template file by sed-substituting PLACEHOLDER tokens.
 #       Refuses to overwrite existing dest unless PLANNING_FORCE=1 in env.
+#   - planning_uses_hewtd "<root>"   →  exit 0 when the project uses hit-em-with-the-docs
 #   - planning_seed_rules "<root>"   →  copies templates/rules/*.md into <root>/.claude/rules/
 #       when absent; never overwrites. Appends templates/git-workflow-section.md once to
 #       the repo's git workflow rule, or creates git-workflow.md
@@ -283,6 +284,16 @@ planning_ensure_archive_gitignored() {
 
   printf '\n# Completed plans retired by scripts/archive-plan.sh (local history)\n.planning/.archive/\n' >> "$gitignore"
   planning_ok "Added .planning/.archive/ to .gitignore (active plans stay shareable)"
+}
+
+# planning_uses_hewtd <repo-root>
+#
+# True when this project uses hit-em-with-the-docs: it has a .documentation/ tree or
+# hewtd's project config. A machine-wide hewtd install does not count — it would put
+# hewtd steps into plans for repos that have no docs tree. init-planning.sh (sm) keeps
+# a self-contained copy of this check.
+planning_uses_hewtd() {
+  [[ -d "${1}/.documentation" || -f "${1}/.claude/hit-em-with-the-docs.json" ]]
 }
 
 # planning_seed_rules <repo-root>

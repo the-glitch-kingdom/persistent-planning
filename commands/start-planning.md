@@ -101,6 +101,10 @@ bash ~/.claude/skills/persistent-planning/scripts/init-planning.sh "<name>"
 Add tasks under a phase with `/start-task "<name>" --parent <phase-slug>`.
 
 ### Both modes
+In a project that uses hit-em-with-the-docs (it has `.documentation/`), the last step
+is worded as a full hit-em-with-the-docs pass: capture all changes, including procedures,
+tools, troubleshooting, gotchas and KB articles, and never secrets.
+
 `.claude/rules/persistent-planning.md` is added if the project does not already have
 it. It is never overwritten, so edit it freely.
 

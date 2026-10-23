@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added — a full hit-em-with-the-docs pass as the last step, when the project uses it
+
+When the project has `.documentation/` or `.claude/hit-em-with-the-docs.json`, the
+plan's last step reads "Documentation pass -- a full hit-em-with-the-docs pass to
+create/update/deprecate as many docs as needed to capture all our changes: new
+procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never include
+secrets or passwords". lg's docs closer also gets hewtd atoms: integrate/archive,
+gotchas as KB facts, KB articles, never secrets, `maintain --quick` + `audit`.
+A machine-wide hewtd install does not count.
+
+- **Fixed:** lg plans in projects without hewtd no longer get the unconditional
+  `npx hewtd archive` / `npx hewtd audit` atoms.
+- Every variant's note now says to capture procedures, tools, troubleshooting,
+  gotchas and KB articles, and never secrets or passwords.
+- The docs step asks to be filled in when the plan is written, naming each doc
+  the work creates, changes or makes stale (lg: the closer's first atom). In a
+  behaviour test, the docs closer was otherwise left generic.
+- Projects without hewtd: the sm Phase 7 line and the lg closer line are
+  byte-identical to before. The slug is unchanged.
+
 ### Changed — the validation closer asks for the tests when the plan is written
 
 The validate step now reads "we need to validate success thoroughly through

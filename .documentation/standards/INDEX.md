@@ -3,7 +3,7 @@ title: Standards Documentation Index
 tier: reference
 domains: [standards]
 status: active
-last_updated: '2026-09-26'
+last_updated: '2026-10-23'
 version: '1.0.0'
 purpose: Complete listing of standards documentation
 ---
@@ -26,7 +26,7 @@ purpose: Complete listing of standards documentation
 | Document | Status | Updated | Words |
 |----------|--------|---------|-------|
 | [Atom Granularity (anti-pattern guide)](atom-granularity.md) | active | 2026-05-07 | 556 |
-| [Mandatory Closing Phases](mandatory-closing-phases.md) | active | 2026-08-31 | 770 |
+| [Mandatory Closing Phases](mandatory-closing-phases.md) | active | 2026-10-23 | 770 |
 
 ## Keywords
 
@@ -40,4 +40,4 @@ This domain covers: standard, standards, convention, conventions, pattern, patte
 
 ---
 
-*Last updated: 2026-09-26*
+*Last updated: 2026-10-23*
