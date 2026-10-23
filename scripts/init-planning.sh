@@ -66,6 +66,14 @@ PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 PLANNING_DIR="${PROJECT_ROOT}/.planning"
 TASK_DIR="${PLANNING_DIR}/${TASK_SLUG}"
 
+# Does this project use hit-em-with-the-docs? Self-contained copy of
+# planning_uses_hewtd in scripts/lib/planning.sh: a .documentation/ tree or hewtd's
+# project config. A machine-wide install does not count.
+USES_HEWTD=0
+if [ -d "${PROJECT_ROOT}/.documentation" ] || [ -f "${PROJECT_ROOT}/.claude/hit-em-with-the-docs.json" ]; then
+    USES_HEWTD=1
+fi
+
 # Color codes
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
