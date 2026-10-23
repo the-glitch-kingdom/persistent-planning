@@ -33,11 +33,13 @@ A generated `task_plan.md` ends at Phase 4. A correct one ends:
 
 ```
 - [ ] Phase 5: Cleanup -- remove junk and unused code this work created: scratch/test scripts, debug files, probe logging, one-off test functions, commented-out code, dead code from abandoned approaches (MANDATORY)
-- [ ] Phase 6: Validate success through comprehensive testing (MANDATORY)
+- [ ] Phase 6: Validate success through comprehensive testing -- we need to validate success thoroughly through comprehensive testing of our changes (MANDATORY)
 - [ ] Phase 7: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)
 ```
 
-and carries an `## On Completion` section naming `/plan-status` and `/archive-plan`.
+(In a project that uses hit-em-with-the-docs, Phase 7 reads as a full hit-em-with-the-docs pass instead —
+see [mandatory closing phases](../standards/mandatory-closing-phases.md).) It also
+carries an `## On Completion` section naming `/plan-status` and `/archive-plan`.
 
 ## Cause
 

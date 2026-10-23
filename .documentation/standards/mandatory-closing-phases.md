@@ -8,7 +8,7 @@ audience:
 tags:
   - testing
 status: active
-last_updated: '2026-08-31'
+last_updated: '2026-10-23'
 version: 1.0.0
 purpose: The three phases every persistent-planning plan must end with — cleanup,
   then validate success through comprehensive testing, then a documentation pass —
@@ -118,7 +118,34 @@ and why it matters. Deprecation counts — a doc made wrong by the change is wor
 than a missing one. If [hit-em-with-the-docs](https://github.com/TheGlitchKing/hit-em-with-the-docs)
 is installed, this pass **must** go through it (`hewtd integrate`, `hewtd
 archive`, `hewtd maintain`) rather than hand-managed markdown, so the doc lands
-in a domain and the indexes stay honest.
+in a domain and the indexes stay honest. Every variant also says to capture new
+procedures, tools, troubleshooting steps, gotchas and KB articles, and **never**
+to include secrets or passwords.
+
+When the project uses hit-em-with-the-docs, the init scripts word this step for
+it rather than leaving "if installed" for Claude to work out. A project counts if
+it has a `.documentation/` tree or `.claude/hit-em-with-the-docs.json`
+(`planning_uses_hewtd`; sm has its own copy). hewtd being installed for the whole
+machine does not count.
+
+- **sm:** Phase 7 reads "Documentation pass -- a full hit-em-with-the-docs pass to
+  create/update/deprecate as many docs as needed to capture all our changes: new
+  procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never
+  include secrets or passwords".
+- **lg:** the docs closer's list line in `phase.md` says the same thing (the
+  `DOCS_CLOSER_PLACEHOLDER` slot). Its task is titled "Documentation pass — full
+  hit-em-with-the-docs pass", and its atoms cover `hewtd integrate`/`archive`,
+  procedures and tools, troubleshooting, gotchas as knowledge-base facts tagged
+  `gotcha`, KB articles, never secrets, and `hewtd maintain --quick` + `hewtd
+  audit`.
+
+Elsewhere the wording is unchanged, and lg plans no longer get the
+`npx hewtd archive`/`npx hewtd audit` atoms they used to receive unconditionally.
+The slug `documentation-pass-create-update-deprecate-docs` is the same in both
+variants, because the completion gate and existing plans key on it. The choice is
+made once, when the plan is written. A project that adopts hewtd later keeps its
+existing plans' wording; new plans pick it up. See
+[docs step has no hewtd steps](../troubleshooting/docs-closer-missing-hewtd-steps.md).
 
 ## How to operate it
 

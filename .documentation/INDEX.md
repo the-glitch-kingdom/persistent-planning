@@ -3,7 +3,7 @@ title: Documentation Index
 tier: reference
 domains: [root]
 status: active
-last_updated: '2026-09-26'
+last_updated: '2026-10-23'
 version: '1.0.0'
 purpose: Navigation hub for all documentation
 ---
@@ -29,7 +29,7 @@ purpose: Navigation hub for all documentation
 | [Security](#security) | 0 | Security, auth, Vault, Keycloak, RLS |
 | [Standards](#standards) | 2 | Coding standards (backend, frontend, database, devops, security) |
 | [Testing](#testing) | 1 | Test strategies, fixtures, patterns, integration/e2e |
-| [Troubleshooting](#troubleshooting) | 2 | Debug guides, common issues, solutions |
+| [Troubleshooting](#troubleshooting) | 3 | Debug guides, common issues, solutions |
 | [Workflows](#workflows) | 0 | Process documentation, multi-step operations |
 | [Reference](#reference) | 3 | Schema, frontmatter, and CLI reference material for the planning artifacts |
 
@@ -164,7 +164,7 @@ purpose: Navigation hub for all documentation
 | Document | Tier | Status | Updated |
 |----------|------|--------|----------|
 | [Atom Granularity (anti-pattern guide)](standards/atom-granularity.md) | standard | active | 2026-05-07 |
-| [Mandatory Closing Phases](standards/mandatory-closing-phases.md) | standard | active | 2026-08-31 |
+| [Mandatory Closing Phases](standards/mandatory-closing-phases.md) | standard | active | 2026-10-23 |
 
 ---
 
@@ -188,6 +188,7 @@ purpose: Navigation hub for all documentation
 
 | Document | Tier | Status | Updated |
 |----------|------|--------|----------|
+| [A plan's docs step has no hit-em-with-the-docs steps](troubleshooting/docs-closer-missing-hewtd-steps.md) | guide | active | 2026-10-23 |
 | [A plan won't read COMPLETE](troubleshooting/plan-never-reads-complete.md) | guide | active | 2026-09-04 |
 | [Stale skill directory — commands run frozen code](troubleshooting/stale-skill-dir-drift.md) | guide | active | 2026-09-04 |
 
@@ -219,6 +220,6 @@ purpose: Navigation hub for all documentation
 
 ## Maintenance
 
-- **Last generated:** 2026-09-26
+- **Last generated:** 2026-10-23
 - **Run maintenance:** `npx hit-em-with-the-docs maintain`
 - **Regenerate index:** `npx hit-em-with-the-docs index`

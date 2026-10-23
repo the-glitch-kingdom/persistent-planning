@@ -38,3 +38,13 @@ reconstructing context after time away.]
 
 ### 2026-10-23 — Initialized
 - Notes file created
+
+## Docs pass (2026-10-23)
+
+- **Updated:** `.documentation/standards/mandatory-closing-phases.md`: both docs-step variants, detection, slug invariant.
+- **Updated (stale since #22):** `.documentation/troubleshooting/stale-skill-dir-drift.md`: the "correct plan" example now shows the current Phase 6 line and notes the hewtd Phase 7 variant.
+- **New troubleshooting:** `.documentation/troubleshooting/docs-closer-missing-hewtd-steps.md` (via `hewtd integrate -a`, frontmatter corrected to guide/active).
+- **New gotcha fact:** `.documentation/knowledge-base/facts/claude-code-grep-v-exit-status.md`: Claude Code's Bash-tool `grep` (ugrep) exits 1 on `-v` when any line matches; use `command grep`. First KB entry in this repo; `hewtd maintain` generated the facts/incidents/symptoms indexes.
+- **Also:** CLAUDE.md, commands/start-planning.md, SKILL.md, CHANGELOG.md.
+- **No secrets** in any doc. `hewtd audit`: 0 errors, 2 warnings. One predates this work (`.documentation/README.md` placement). The other is hewtd flagging its own default vault folder `knowledge-base/` as unknown, which is upstream behaviour, not fixed here.
+- Only index files with real content changes are committed; date-only regeneration churn is dropped.

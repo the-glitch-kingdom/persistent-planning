@@ -3,7 +3,7 @@ title: Documentation pass — create/update/deprecate docs
 tier: plan
 domains:
   - planning
-status: draft
+status: done
 last_updated: "2026-10-23"
 plan_kind: task
 parent: hewtd-aware-documentation-closer
@@ -31,13 +31,13 @@ Inline checkbox vs. standalone atom file — see anti-pattern doc:
 .documentation/standards/atom-granularity.md.]
 
 or run `/start-atom "Atom name" --parent documentation-pass-create-update-deprecate-docs` for complex ones)_
-- [ ] Create docs for what was built: what it is, where it lives, how it works
-- [ ] Add a troubleshooting entry for the symptom someone will actually search for
-- [ ] Update every existing doc this phase made wrong — a stale doc is worse than a missing one
-- [ ] Retire superseded docs with `npx hewtd archive <file>` — never by deleting
-- [ ] If hit-em-with-the-docs is installed you MUST use it: `npx hewtd integrate <file> -a` to create, `npx hewtd maintain --quick` to regenerate indexes
-- [ ] Run `npx hewtd audit` and resolve every error
-- [ ] Never hand-edit INDEX.md or REGISTRY.md — they are generated
+- [x] Create docs for what was built: what it is, where it lives, how it works
+- [x] Add a troubleshooting entry for the symptom someone will actually search for
+- [x] Update every existing doc this phase made wrong — a stale doc is worse than a missing one
+- [x] Retire superseded docs with `npx hewtd archive <file>` — never by deleting
+- [x] If hit-em-with-the-docs is installed you MUST use it: `npx hewtd integrate <file> -a` to create, `npx hewtd maintain --quick` to regenerate indexes
+- [x] Run `npx hewtd audit` and resolve every error
+- [x] Never hand-edit INDEX.md or REGISTRY.md — they are generated
 
 ## Decisions Made
 [Task-level decisions. Format: `**Decision**: rationale`.]

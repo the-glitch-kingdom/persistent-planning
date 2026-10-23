@@ -3,7 +3,7 @@ title: hewtd-aware documentation closer
 tier: plan
 domains:
   - planning
-status: active
+status: done
 last_updated: "2026-10-23"
 plan_kind: phase
 parent: null
@@ -25,7 +25,7 @@ so subagent teams can pick them up concurrently.]
 - [x] **sm docs phase variant** (`sm-docs-phase-variant`)
 - [x] **Cleanup — remove junk and unused code** (`cleanup-remove-junk-and-unused-code`) (MANDATORY — third-to-last)
 - [x] **Validate success through comprehensive testing** (`validate-success-through-comprehensive-testing`) (MANDATORY — second-to-last)
-- [ ] **Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc..** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
+- [x] **Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc..** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
 
 > The three mandatory closing tasks above MUST remain the last three tasks of this phase.
 > Add new tasks above them; never after. A phase cannot be marked `done` until all three
@@ -58,7 +58,7 @@ so subagent teams can pick them up concurrently.]
 - **Slugs stay fixed**: the completion gate and existing plans key on `documentation-pass-create-update-deprecate-docs`.
 
 ## Status
-**Currently draft** — phase has been initialized but no tasks defined.
+**Done** — all tasks and closers complete; shipped as one PR.
 
 Status enum: `draft | active | paused | done | archived`
 

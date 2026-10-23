@@ -3,7 +3,7 @@ title: Standards Registry
 tier: reference
 domains: [standards]
 status: active
-last_updated: '2026-09-26'
+last_updated: '2026-10-23'
 version: '1.0.0'
 purpose: Quick reference for standards documentation
 ---
@@ -27,7 +27,7 @@ purpose: Quick reference for standards documentation
 
 ## Recently Updated
 
-- [Mandatory Closing Phases](mandatory-closing-phases.md) - 2026-08-31
+- [Mandatory Closing Phases](mandatory-closing-phases.md) - 2026-10-23
 - [Atom Granularity (anti-pattern guide)](atom-granularity.md) - 2026-05-07
 
 ## By Status
@@ -50,4 +50,4 @@ purpose: Quick reference for standards documentation
 
 ---
 
-*Last updated: 2026-09-26*
+*Last updated: 2026-10-23*
