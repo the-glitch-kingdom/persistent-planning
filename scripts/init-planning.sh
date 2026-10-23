@@ -116,7 +116,7 @@ if [ ! -f "$TASK_PLAN_FILE" ]; then
 - [ ] Phase 4: Review and deliver
 - [ ] Phase 5: Cleanup -- remove junk and unused code this work created: scratch/test scripts, debug files, probe logging, one-off test functions, commented-out code, dead code from abandoned approaches (MANDATORY)
 - [ ] Phase 6: Validate success through comprehensive testing -- we need to validate success thoroughly through comprehensive testing of our changes (MANDATORY)
-- [ ] Phase 7: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)
+- [ ] Phase 7: DOCS_PHASE_PLACEHOLDER (MANDATORY)
 
 > Phases 5, 6 and 7 are mandatory and MUST stay the last three phases of this plan.
 > Insert new work above them; never after. Renumber them if you add phases.
@@ -135,6 +135,8 @@ if [ ! -f "$TASK_PLAN_FILE" ]; then
 >   breaks.
 > - **Documentation pass**: create/update/deprecate every doc this change touches --
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.
+>   Capture new procedures, tools, troubleshooting steps, gotchas and KB articles too.
+>   Never include secrets or passwords.
 >   If hit-em-with-the-docs is installed, you MUST use it for this pass --
 >   `npx hewtd integrate <file> -a` to create, `npx hewtd archive <file>` to retire,
 >   `npx hewtd maintain --quick` to regenerate indexes. Never hand-edit INDEX.md or
@@ -176,6 +178,13 @@ EOF
 
     sed -i "s/TASK_NAME_PLACEHOLDER/${TASK_NAME}/g" "$TASK_PLAN_FILE"
     sed -i "s/TASK_SLUG_PLACEHOLDER/${TASK_SLUG}/g" "$TASK_PLAN_FILE"
+    # Both texts contain '/', hence the '|' delimiter; neither may contain '|' or '&'.
+    if [ "$USES_HEWTD" = "1" ]; then
+        DOCS_PHASE="Documentation pass -- a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes: new procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never include secrets or passwords"
+    else
+        DOCS_PHASE="Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.."
+    fi
+    sed -i "s|DOCS_PHASE_PLACEHOLDER|${DOCS_PHASE}|g" "$TASK_PLAN_FILE"
     echo -e "${GREEN}+${NC} Created task_plan.md"
 else
     echo -e "${YELLOW}*${NC} task_plan.md already exists (not overwritten)"

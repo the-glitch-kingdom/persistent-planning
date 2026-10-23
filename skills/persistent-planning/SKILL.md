@@ -147,7 +147,10 @@ Both tasks coexist independently. Switch between them as needed.
 
 ## task_plan.md Template
 
-Create this file FIRST for any complex task:
+Create this file FIRST for any complex task. In a project that uses hit-em-with-the-docs
+(it has `.documentation/`), the init scripts word the last phase as a full
+hit-em-with-the-docs pass capturing all changes (procedures, tools, troubleshooting,
+gotchas, KB articles), never secrets; lg's docs closer gets matching atoms.
 
 ```markdown
 # Task Plan: [Brief Description]
@@ -181,6 +184,8 @@ Create this file FIRST for any complex task:
 >   breaks.
 > - **Documentation pass**: create/update/deprecate every doc this change touches --
 >   what it is, where it lives, how to fix it, how to operate it, why it matters.
+>   Capture new procedures, tools, troubleshooting steps, gotchas and KB articles too.
+>   Never include secrets or passwords.
 >   If hit-em-with-the-docs is installed, you MUST use it for this pass --
 >   `npx hewtd integrate <file> -a` to create, `npx hewtd archive <file>` to retire,
 >   `npx hewtd maintain --quick` to regenerate indexes. Never hand-edit INDEX.md or

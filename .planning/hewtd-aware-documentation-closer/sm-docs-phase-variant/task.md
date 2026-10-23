@@ -3,7 +3,7 @@ title: sm docs phase variant
 tier: plan
 domains:
   - planning
-status: active
+status: done
 last_updated: "2026-10-23"
 plan_kind: task
 parent: hewtd-aware-documentation-closer
@@ -31,8 +31,8 @@ Inline checkbox vs. standalone atom file — see anti-pattern doc:
 .documentation/standards/atom-granularity.md.]
 
 or run `/start-atom "Atom name" --parent sm-docs-phase-variant` for complex ones)_
-- [ ] init-planning.sh: Phase 7 line becomes DOCS_PHASE_PLACEHOLDER, default text byte-identical to today, hewtd text when detected
-- [ ] Same note addition as lg; mirror both in SKILL.md example
+- [x] init-planning.sh: Phase 7 line becomes DOCS_PHASE_PLACEHOLDER, default text byte-identical to today, hewtd text when detected
+- [x] Same note addition as lg; mirror both in SKILL.md example
 
 ## Decisions Made
 [Task-level decisions. Format: `**Decision**: rationale`.]
