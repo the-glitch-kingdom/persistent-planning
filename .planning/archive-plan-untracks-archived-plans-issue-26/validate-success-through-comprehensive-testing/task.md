@@ -3,7 +3,7 @@ title: Validate success through comprehensive testing
 tier: plan
 domains:
   - planning
-status: draft
+status: done
 last_updated: "2026-10-23"
 plan_kind: task
 parent: archive-plan-untracks-archived-plans-issue-26
@@ -31,21 +31,21 @@ Inline checkbox vs. standalone atom file — see anti-pattern doc:
 .documentation/standards/atom-granularity.md.]
 
 or run `/start-atom "Atom name" --parent validate-success-through-comprehensive-testing` for complex ones)_
-- [ ] We need to validate success thoroughly through comprehensive testing of our changes: as this phase's tasks are written, add an atom here for each check they need
-- [ ] Cover every kind that applies: unit tests for new and changed logic, integration and end-to-end runs through the real entry points, edge cases and failure paths
-- [ ] Prove every claim this phase makes with a test that fails if it breaks
-- [ ] Test the invariant after mutation, not the shape of a freshly rendered template
-- [ ] Cover the failure mode that prompted the work, not just the happy path
-- [ ] Run the full suite green before closing this task
-- [ ] Temp git repo with a committed complete plan: after archive, git ls-files .planning/.archive is empty
-- [ ] Same repo: archived files exist on disk and the top artifact reads status: archived
-- [ ] Same repo: git status shows the plan's old paths as staged deletions and no renames into .archive/
-- [ ] Regression for #26: committing after archive leaves no .planning/.archive paths in HEAD
-- [ ] Untracked plan in a git repo still archives with plain mv; non-git root still archives
-- [ ] --dry-run changes neither the index nor the disk
-- [ ] Staged-change edge case: plan file with staged content differing from worktree -> warning, files still on disk, no data lost
-- [ ] Mutation check: restore git mv and confirm the new asserts go red
-- [ ] Full suite green
+- [x] We need to validate success thoroughly through comprehensive testing of our changes: as this phase's tasks are written, add an atom here for each check they need
+- [x] Cover every kind that applies: unit tests for new and changed logic, integration and end-to-end runs through the real entry points, edge cases and failure paths
+- [x] Prove every claim this phase makes with a test that fails if it breaks
+- [x] Test the invariant after mutation, not the shape of a freshly rendered template
+- [x] Cover the failure mode that prompted the work, not just the happy path
+- [x] Run the full suite green before closing this task
+- [x] Temp git repo with a committed complete plan: after archive, git ls-files .planning/.archive is empty
+- [x] Same repo: archived files exist on disk and the top artifact reads status: archived
+- [x] Same repo: git status shows the plan's old paths as staged deletions and no renames into .archive/
+- [x] Regression for #26: committing after archive leaves no .planning/.archive paths in HEAD
+- [x] Untracked plan in a git repo still archives with plain mv; non-git root still archives
+- [x] --dry-run changes neither the index nor the disk
+- [x] Staged-change edge case: plan file with staged content differing from worktree -> warning, files still on disk, no data lost
+- [x] Mutation check: restore git mv and confirm the new asserts go red
+- [x] Full suite green
 
 ## Decisions Made
 [Task-level decisions. Format: `**Decision**: rationale`.]

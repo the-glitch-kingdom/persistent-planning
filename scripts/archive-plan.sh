@@ -118,21 +118,25 @@ archive_one() {
   ensure_gitignored
   mkdir -p "$ARCHIVE"
 
-  local tracked=0
+  local tracked=0 staged=0
   if git -C "$ROOT" rev-parse --git-dir >/dev/null 2>&1 \
      && [[ -n "$(git -C "$ROOT" ls-files ".planning/${slug}" 2>/dev/null)" ]]; then
     tracked=1
+    git -C "$ROOT" diff --cached --quiet -- ".planning/${slug}" 2>/dev/null || staged=1
   fi
 
   mv "$src" "$dest"
 
   # A tracked plan leaves the index: archived plans are local history (issue #26).
   # git mv kept them tracked inside the gitignored .archive/, since ignore rules
-  # never apply to tracked files. Never forced — refusal means staged content
-  # that untracking would drop.
-  if [[ $tracked -eq 1 ]] && ! git -C "$ROOT" rm -r -q --cached ".planning/${slug}" >/dev/null 2>&1; then
+  # never apply to tracked files. Staged changes are checked first, because once
+  # the files have moved git rm --cached no longer refuses and would drop them.
+  if [[ $tracked -eq 1 && $staged -eq 1 ]]; then
     planning_warn "Archived on disk, but git still tracks .planning/${slug}/ (it has staged changes)."
-    echo "  Review them, then untrack with: git rm -r --cached .planning/${slug}" >&2
+    echo "  Commit or unstage them, then untrack with: git rm -r --cached .planning/${slug}" >&2
+  elif [[ $tracked -eq 1 ]]; then
+    git -C "$ROOT" rm -r -q --cached ".planning/${slug}" >/dev/null 2>&1 \
+      || planning_warn "Archived on disk, but could not untrack .planning/${slug}/: git rm -r --cached .planning/${slug}"
   fi
 
   stamp_archived "$(plan_root_artifact "$dest")"

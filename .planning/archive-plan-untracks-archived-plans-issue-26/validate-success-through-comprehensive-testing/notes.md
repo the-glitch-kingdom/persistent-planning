@@ -38,3 +38,9 @@ reconstructing context after time away.]
 
 ### 2026-10-23 — Initialized
 - Notes file created
+
+## Results (2026-10-23)
+
+- `npm test`: **202 passed, 0 failed** (16 new asserts, "archive-plan untracks archived plans (issue #26)").
+- **Finding during testing:** the first fix relied on `git rm --cached` refusing when staged content would be lost. After the move the old path has no worktree file, so git never refuses. Staged-only content would have been silently dropped from the index. Fixed by checking `git diff --cached` *before* the move. When the plan has staged changes, it stays tracked and you get a warning. The test stages content that differs from the worktree and asserts it's still in the index.
+- **Mutation check:** running the suite against `main`'s `archive-plan.sh` (the `git mv` version) turns **6** of the new asserts red, including the #26 regression. The fixed script turns them green.
