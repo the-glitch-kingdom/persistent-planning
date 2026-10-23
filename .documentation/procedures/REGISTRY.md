@@ -3,7 +3,7 @@ title: Procedures Registry
 tier: reference
 domains: [procedures]
 status: active
-last_updated: '2026-09-26'
+last_updated: '2026-10-23'
 version: '1.0.0'
 purpose: Quick reference for procedures documentation
 ---
@@ -27,8 +27,8 @@ purpose: Quick reference for procedures documentation
 
 ## Recently Updated
 
+- [Plan Completion and Archive](plan-completion-and-archive.md) - 2026-10-23
 - [Plugin update delivery — what actually runs, and when](plugin-update-delivery.md) - 2026-09-04
-- [Plan Completion and Archive](plan-completion-and-archive.md) - 2026-08-31
 
 ## By Status
 
@@ -50,4 +50,4 @@ purpose: Quick reference for procedures documentation
 
 ---
 
-*Last updated: 2026-09-26*
+*Last updated: 2026-10-23*

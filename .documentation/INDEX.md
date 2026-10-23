@@ -128,7 +128,7 @@ purpose: Navigation hub for all documentation
 
 | Document | Tier | Status | Updated |
 |----------|------|--------|----------|
-| [Plan Completion and Archive](procedures/plan-completion-and-archive.md) | guide | active | 2026-08-31 |
+| [Plan Completion and Archive](procedures/plan-completion-and-archive.md) | guide | active | 2026-10-23 |
 | [Plugin update delivery — what actually runs, and when](procedures/plugin-update-delivery.md) | guide | active | 2026-09-04 |
 
 ---

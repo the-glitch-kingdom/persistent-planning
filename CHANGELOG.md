@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Fixed — archived plans stayed tracked in git (#26)
+
+`archive-plan.sh` moved tracked plans with `git mv`, so they stayed tracked
+inside the gitignored `.planning/.archive/`, because ignore rules never apply to
+tracked files. It now moves the plan and untracks it (`git rm -r --cached`).
+The files stay on disk and the next commit shows the plan as deleted. A plan
+with staged changes stays tracked with a warning rather than losing content
+only the index holds. Repos with plans archived earlier:
+`git rm -r --cached .planning/.archive`.
+
 ## [3.6.0] - 2026-10-23
 
 ### Added — a full hit-em-with-the-docs pass as the last step, when the project uses it

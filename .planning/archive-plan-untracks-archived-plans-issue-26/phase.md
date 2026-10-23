@@ -3,7 +3,7 @@ title: archive-plan untracks archived plans (issue 26)
 tier: plan
 domains:
   - planning
-status: active
+status: done
 last_updated: "2026-10-23"
 plan_kind: phase
 parent: null
@@ -23,7 +23,7 @@ so subagent teams can pick them up concurrently.]
 - [x] **Untrack the plan when archiving** (`untrack-the-plan-when-archiving`)
 - [x] **Cleanup — remove junk and unused code** (`cleanup-remove-junk-and-unused-code`) (MANDATORY — third-to-last)
 - [x] **Validate success through comprehensive testing** (`validate-success-through-comprehensive-testing`) (MANDATORY — second-to-last)
-- [ ] **Documentation pass — a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes: new procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never include secrets or passwords** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
+- [x] **Documentation pass — a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes: new procedures, tools, troubleshooting steps, gotchas, KB articles, etc. Never include secrets or passwords** (`documentation-pass-create-update-deprecate-docs`) (MANDATORY — last)
 
 > The three mandatory closing tasks above MUST remain the last three tasks of this phase.
 > Add new tasks above them; never after. A phase cannot be marked `done` until all three
@@ -59,7 +59,7 @@ so subagent teams can pick them up concurrently.]
 - **Never force**: if git refuses to untrack (staged content that would be lost), warn and leave it to the user.
 
 ## Status
-**Currently draft** — phase has been initialized but no tasks defined.
+**Done** — fix, tests and docs complete; one PR for #26.
 
 Status enum: `draft | active | paused | done | archived`
 

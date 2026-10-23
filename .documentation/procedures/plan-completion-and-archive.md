@@ -7,7 +7,7 @@ audience:
   - developers
 tags: []
 status: active
-last_updated: '2026-08-31'
+last_updated: '2026-10-23'
 version: 1.0.0
 purpose: How persistent-planning decides a plan is finished, how that reaches
   the agent automatically, and the procedure for retiring a completed plan into
@@ -104,17 +104,22 @@ Archiving performs four steps:
 
 1. Verifies completion (skipped under `--force`).
 2. Ensures `.planning/.archive/` exists and is in `.gitignore`.
-3. Moves `.planning/<slug>/` → `.planning/.archive/<slug>/`, preferring `git mv`
-   when the plan is tracked so history follows it.
+3. Moves `.planning/<slug>/` → `.planning/.archive/<slug>/`. If the plan is tracked,
+   it is also removed from git's index (`git rm -r --cached`; the files stay on
+   disk), so the archive is local history and the next commit shows the plan as
+   deleted. Its history stays in git. A plan with **staged** changes stays tracked
+   with a warning, because untracking would drop content that only the index holds.
+   Commit or unstage, then run `git rm -r --cached .planning/<slug>`.
 4. Stamps the top-level artifact: `status: archived` + `archived_on` in
    frontmatter, or a dated footer for sm plans that have none.
 
-**Nothing is ever deleted.** Archiving is a move plus a stamp.
+**Nothing is ever deleted.** Archiving is a move plus a stamp; the git side is an untrack, not a delete.
 
 ## Restoring an archived plan
 
 ```bash
 mv .planning/.archive/<slug> .planning/<slug>
+git add .planning/<slug>          # it was untracked when archived
 ```
 
 Then set `status:` back to `active` and remove the `archived_on` stamp. The plan
@@ -129,7 +134,8 @@ resumes reading as in-progress the moment a box is unchecked.
 | `archive-plan.sh` refuses | The plan is genuinely incomplete | Finish it. `--force` exists for deliberate abandonment, not for impatience |
 | "Already archived: … exists" | A plan with that slug was archived before | Rename or move the existing entry under `.planning/.archive/` first |
 | Nudge never appears | No `.planning/` directory, or no plan is complete, or the hook is not registered | `npx persistent-planning status` reports hook registration |
-| Archived plans show up in `git status` | `.planning/` is tracked in this repo and the ignore line was added after the fact | Ensure `.gitignore` has `.planning/.archive/`; `git rm -r --cached .planning/.archive` if already tracked |
+| Archived plans show up in `git status` / are tracked under `.archive/` | Archived before the fix for #26: `archive-plan.sh` used `git mv` and kept them tracked ([#26](https://github.com/the-glitch-kingdom/persistent-planning/issues/26)); or the ignore line was added after the fact | Ensure `.gitignore` has `.planning/.archive/`, then `git rm -r --cached .planning/.archive` (stage any pending stamp first: `git add -f .planning/.archive/*/phase.md`). Files stay on disk |
+| "Archived on disk, but git still tracks …" warning | The plan had staged changes; untracking would have dropped them | Commit or unstage them, then `git rm -r --cached .planning/<slug>` |
 
 ## Design notes
 
