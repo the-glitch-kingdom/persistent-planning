@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [3.6.0] - 2026-10-23
 
 ### Added — a full hit-em-with-the-docs pass as the last step, when the project uses it
 
