@@ -3,7 +3,7 @@ title: Cleanup — remove junk and unused code
 tier: plan
 domains:
   - planning
-status: draft
+status: done
 last_updated: "2026-10-23"
 plan_kind: task
 parent: hewtd-aware-documentation-closer
@@ -31,11 +31,11 @@ Inline checkbox vs. standalone atom file — see anti-pattern doc:
 .documentation/standards/atom-granularity.md.]
 
 or run `/start-atom "Atom name" --parent cleanup-remove-junk-and-unused-code` for complex ones)_
-- [ ] Scope it: diff against where this phase started — only what this phase created or changed is in scope
-- [ ] Remove scratch/test scripts, debug files, temp output and backups this phase created
-- [ ] Remove probe logging, one-off test functions and commented-out code
-- [ ] Remove code, helpers, imports and dependencies left unused by abandoned approaches
-- [ ] Never refactor code this phase did not touch; when unsure, record it in notes.md instead of deleting
+- [x] Scope it: diff against where this phase started — only what this phase created or changed is in scope
+- [x] Remove scratch/test scripts, debug files, temp output and backups this phase created
+- [x] Remove probe logging, one-off test functions and commented-out code
+- [x] Remove code, helpers, imports and dependencies left unused by abandoned approaches
+- [x] Never refactor code this phase did not touch; when unsure, record it in notes.md instead of deleting
 
 ## Decisions Made
 [Task-level decisions. Format: `**Decision**: rationale`.]

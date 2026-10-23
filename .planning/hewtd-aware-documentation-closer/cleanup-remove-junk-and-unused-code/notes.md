@@ -38,3 +38,11 @@ reconstructing context after time away.]
 
 ### 2026-10-23 — Initialized
 - Notes file created
+
+## Findings (2026-10-23)
+
+- Nothing to remove: scratch renders lived in the session scratchpad and were deleted; no debug lines in the diff.
+- **Noted, not fixed (pre-existing, outside this phase's change):** when the first inline atom
+  is inserted into a task, `planning_insert_list_item` replaces only the first line of the
+  two-line `_(no atoms yet — …` placeholder, leaving a dangling
+  `or run /start-atom … for complex ones)_` line above the atoms. Cosmetic; worth its own fix.
