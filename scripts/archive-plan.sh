@@ -12,8 +12,8 @@
 #   1. Refuses unless the plan is complete (every checkbox checked, or the
 #      top-level artifact declares `status: done`) -- override with --force.
 #   2. Ensures .planning/.archive/ exists and is gitignored.
-#   3. Moves .planning/<slug>/ to .planning/.archive/<slug>/ (git mv when the
-#      plan is tracked, so history follows it).
+#   3. Moves .planning/<slug>/ to .planning/.archive/<slug>/. A tracked plan is
+#      also removed from git's index (files stay on disk): archives are local.
 #   4. Stamps the plan's top-level artifact with status: archived + archived_on.
 #
 # Nothing is ever deleted. Restore by moving the directory back out.
@@ -111,18 +111,32 @@ archive_one() {
   fi
 
   if [[ $DRY_RUN -eq 1 ]]; then
-    planning_log "[dry-run] would archive .planning/${slug}/ -> .planning/.archive/${slug}/"
+    planning_log "[dry-run] would archive .planning/${slug}/ -> .planning/.archive/${slug}/ (untracked from git if tracked)"
     return 0
   fi
 
   ensure_gitignored
   mkdir -p "$ARCHIVE"
 
+  local tracked=0 staged=0
   if git -C "$ROOT" rev-parse --git-dir >/dev/null 2>&1 \
      && [[ -n "$(git -C "$ROOT" ls-files ".planning/${slug}" 2>/dev/null)" ]]; then
-    git -C "$ROOT" mv ".planning/${slug}" ".planning/.archive/${slug}"
-  else
-    mv "$src" "$dest"
+    tracked=1
+    git -C "$ROOT" diff --cached --quiet -- ".planning/${slug}" 2>/dev/null || staged=1
+  fi
+
+  mv "$src" "$dest"
+
+  # A tracked plan leaves the index: archived plans are local history (issue #26).
+  # git mv kept them tracked inside the gitignored .archive/, since ignore rules
+  # never apply to tracked files. Staged changes are checked first, because once
+  # the files have moved git rm --cached no longer refuses and would drop them.
+  if [[ $tracked -eq 1 && $staged -eq 1 ]]; then
+    planning_warn "Archived on disk, but git still tracks .planning/${slug}/ (it has staged changes)."
+    echo "  Commit or unstage them, then untrack with: git rm -r --cached .planning/${slug}" >&2
+  elif [[ $tracked -eq 1 ]]; then
+    git -C "$ROOT" rm -r -q --cached ".planning/${slug}" >/dev/null 2>&1 \
+      || planning_warn "Archived on disk, but could not untrack .planning/${slug}/: git rm -r --cached .planning/${slug}"
   fi
 
   stamp_archived "$(plan_root_artifact "$dest")"

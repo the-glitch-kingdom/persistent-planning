@@ -3,7 +3,7 @@ title: Procedures Documentation Index
 tier: reference
 domains: [procedures]
 status: active
-last_updated: '2026-09-26'
+last_updated: '2026-10-23'
 version: '1.0.0'
 purpose: Complete listing of procedures documentation
 ---
@@ -25,7 +25,7 @@ purpose: Complete listing of procedures documentation
 
 | Document | Status | Updated | Words |
 |----------|--------|---------|-------|
-| [Plan Completion and Archive](plan-completion-and-archive.md) | active | 2026-08-31 | 812 |
+| [Plan Completion and Archive](plan-completion-and-archive.md) | active | 2026-10-23 | 812 |
 | [Plugin update delivery — what actually runs, and when](plugin-update-delivery.md) | active | 2026-09-04 | 539 |
 
 ## Keywords
@@ -40,4 +40,4 @@ This domain covers: procedure, procedures, sop, standard-operating-procedure, st
 
 ---
 
-*Last updated: 2026-09-26*
+*Last updated: 2026-10-23*

@@ -1144,5 +1144,72 @@ for f in templates/lg/phase.md scripts/init-phase.sh scripts/init-planning.sh sc
 done
 
 ###############################################################################
+echo "archive-plan untracks archived plans (issue #26)"
+###############################################################################
+git_ws() { # -> a temp git repo with a committed, complete sm plan "done-plan"
+  local d; d=$(new_workspace)
+  git -C "$d" init -q
+  printf '.planning/.archive/\n' > "$d/.gitignore"
+  CLAUDE_PROJECT_DIR="$d" bash "$REPO_DIR/scripts/init-planning.sh" "Done Plan" >/dev/null 2>&1
+  sed -i 's/- \[ \]/- [x]/g' "$d/.planning/done-plan/task_plan.md"
+  git -C "$d" add -A && git -C "$d" -c user.name=t -c user.email=t@t commit -qm plan
+  echo "$d"
+}
+
+# --- tracked plan: archived on disk, out of the index -------------------------
+WS=$(git_ws)
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/archive-plan.sh" done-plan >/dev/null 2>&1
+assert_eq "" "$(git -C "$WS" ls-files .planning/.archive)" "a tracked plan is not tracked once archived"
+assert_file "$WS/.planning/.archive/done-plan/task_plan.md" "the archived plan stays on disk"
+assert_file "$WS/.planning/.archive/done-plan/notes.md" "the archived notes stay on disk"
+assert_contains "$WS/.planning/.archive/done-plan/task_plan.md" "**Archived " "the archived plan is stamped"
+STATUS=$(git -C "$WS" status --porcelain -- .planning)
+case "$STATUS" in *"R "*) fail "archiving stages no renames into .archive/"; printf '       got: %s\n' "$STATUS" ;;
+  *) pass "archiving stages no renames into .archive/" ;; esac
+assert_eq "D  .planning/done-plan/notes.md
+D  .planning/done-plan/task_plan.md" "$(git -C "$WS" status --porcelain -- .planning | sort)" \
+  "the plan's old paths are staged deletions"
+git -C "$WS" -c user.name=t -c user.email=t@t commit -qm archive
+assert_eq "" "$(git -C "$WS" ls-tree -r --name-only HEAD -- .planning)" \
+  "regression #26: after committing, no plan paths remain in HEAD"
+assert_file "$WS/.planning/.archive/done-plan/task_plan.md" "the archive survives the commit"
+rm -rf "$WS"
+
+# --- untracked plan in a git repo, and a non-git root: plain move -------------
+WS=$(new_workspace); git -C "$WS" init -q
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "Loose" >/dev/null 2>&1
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/archive-plan.sh" loose --force >/dev/null 2>&1
+assert_file "$WS/.planning/.archive/loose/task_plan.md" "an untracked plan in a git repo archives"
+assert_eq "" "$(git -C "$WS" ls-files .planning)" "archiving an untracked plan stages nothing"
+rm -rf "$WS"
+WS=$(new_workspace)
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "No Git" >/dev/null 2>&1
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/archive-plan.sh" no-git --force >/dev/null 2>&1
+assert_file "$WS/.planning/.archive/no-git/task_plan.md" "a plan outside any git repo archives"
+rm -rf "$WS"
+
+# --- --dry-run touches neither index nor disk ---------------------------------
+WS=$(git_ws)
+BEFORE=$(git -C "$WS" status --porcelain; find "$WS/.planning" -type f | sort)
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/archive-plan.sh" done-plan --dry-run >/dev/null 2>&1
+assert_eq "$BEFORE" "$(git -C "$WS" status --porcelain; find "$WS/.planning" -type f | sort)" \
+  "--dry-run changes neither the index nor the disk"
+rm -rf "$WS"
+
+# --- staged content only the index holds: warn, never untrack, lose nothing -----
+# The staged blob differs from the worktree, so untracking would drop it for good.
+WS=$(git_ws)
+echo "STAGED ONLY" >> "$WS/.planning/done-plan/notes.md"; git -C "$WS" add .planning/done-plan/notes.md
+git -C "$WS" show HEAD:.planning/done-plan/notes.md > "$WS/.planning/done-plan/notes.md"
+OUT=$(CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/archive-plan.sh" done-plan 2>&1)
+case "$OUT" in *"git rm -r --cached .planning/done-plan"*) pass "staged changes: warns with the manual fix" ;;
+  *) fail "staged changes: warns with the manual fix"; printf '       got: %s\n' "$OUT" ;; esac
+case "$(git -C "$WS" show :.planning/done-plan/notes.md 2>/dev/null)" in *"STAGED ONLY"*) pass "staged changes: the staged content is still in the index" ;;
+  *) fail "staged changes: the staged content is still in the index" ;; esac
+assert_file "$WS/.planning/.archive/done-plan/notes.md" "staged changes: the plan is still archived on disk"
+assert_contains "$WS/.planning/.archive/done-plan/task_plan.md" "**Archived " "staged changes: the plan is still stamped"
+rm -rf "$WS"
+
+###############################################################################
 printf '\n%d passed, %d failed\n' "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]
