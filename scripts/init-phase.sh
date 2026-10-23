@@ -193,6 +193,7 @@ scaffold_closer \
 
 # Only completed plans are local history — see planning_ensure_archive_gitignored.
 planning_ensure_archive_gitignored "${ROOT}"
+planning_seed_rules "${ROOT}"
 
 echo ""
 planning_ok "Phase '${PHASE_NAME}' ready at .planning/${PHASE_SLUG}/"

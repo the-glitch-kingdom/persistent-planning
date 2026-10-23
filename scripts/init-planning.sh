@@ -15,7 +15,8 @@
 #   2. Creates task_plan.md with templates
 #   3. Creates notes.md with templates
 #   4. Adds .planning/ to .gitignore (optional)
-#   5. Confirms creation and provides next steps
+#   5. Copies templates/rules/*.md into .claude/rules/ (only files not already there)
+#   6. Confirms creation and provides next steps
 #
 # Multiple tasks example:
 #   /start-planning "Refactor auth"      -> .planning/refactor-auth/
@@ -232,6 +233,36 @@ if [ -f "${PROJECT_ROOT}/.gitignore" ]; then
     fi
 else
     echo -e "${YELLOW}*${NC} No .gitignore found (not added)"
+fi
+
+# Step 5b: Seed .claude/rules/
+#
+# Each templates/rules/*.md is copied once, when absent; after that the repo owns it.
+# The git-workflow section is appended once (by marker) to an existing git workflow
+# rule, or creates git-workflow.md. Self-contained copy of planning_seed_rules in
+# scripts/lib/planning.sh. A legacy install with no templates/ beside scripts/ just
+# gets no rules.
+TEMPLATES_SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../templates"
+RULES_DIR="${PROJECT_ROOT}/.claude/rules"
+for src in "$TEMPLATES_SRC"/rules/*.md; do
+    [ -f "$src" ] || continue
+    dest="${RULES_DIR}/$(basename "$src")"
+    [ -e "$dest" ] && continue
+    if mkdir -p "$RULES_DIR" && cp "$src" "$dest"; then
+        echo -e "${GREEN}+${NC} Added .claude/rules/$(basename "$src")"
+    fi
+done
+GIT_SECTION="${TEMPLATES_SRC}/git-workflow-section.md"
+if [ -f "$GIT_SECTION" ]; then
+    GIT_RULE=$(ls "$RULES_DIR" 2>/dev/null | grep -iE 'git.?(work)?flow.*\.md$' | head -1)
+    if [ -n "$GIT_RULE" ]; then
+        if ! grep -qF "$(head -1 "$GIT_SECTION")" "${RULES_DIR}/${GIT_RULE}"; then
+            { printf '\n'; cat "$GIT_SECTION"; } >> "${RULES_DIR}/${GIT_RULE}"
+            echo -e "${GREEN}+${NC} Added persistent-plan requirements to .claude/rules/${GIT_RULE}"
+        fi
+    elif mkdir -p "$RULES_DIR" && { printf '# Git Workflow\n\n'; cat "$GIT_SECTION"; } > "${RULES_DIR}/git-workflow.md"; then
+        echo -e "${GREEN}+${NC} Added .claude/rules/git-workflow.md"
+    fi
 fi
 
 # Step 6: List other active tasks

@@ -137,6 +137,8 @@ planning_insert_list_item \
   "## Atoms" \
   "- [ ] **${ATOM_NAME}** (\`atoms/${ATOM_SLUG}.md\`, sequence: ${NEXT_SEQUENCE})"
 
+planning_seed_rules "${ROOT}"
+
 echo ""
 planning_ok "Atom '${ATOM_NAME}' ready"
 echo ""

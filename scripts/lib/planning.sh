@@ -23,6 +23,9 @@
 #   - planning_render_template "<src>" "<dest>" "PLACEHOLDER1=value1" "PLACEHOLDER2=value2" ...
 #       Renders a template file by sed-substituting PLACEHOLDER tokens.
 #       Refuses to overwrite existing dest unless PLANNING_FORCE=1 in env.
+#   - planning_seed_rules "<root>"   →  copies templates/rules/*.md into <root>/.claude/rules/
+#       when absent; never overwrites. Appends templates/git-workflow-section.md once to
+#       the repo's git workflow rule, or creates git-workflow.md
 #   - planning_color_<name>          →  ANSI color codes (green, blue, yellow, cyan, red, reset)
 #                                       (only set when stdout is a tty; empty otherwise)
 #   - Color-coded log helpers: planning_log, planning_ok, planning_warn, planning_err
@@ -280,4 +283,51 @@ planning_ensure_archive_gitignored() {
 
   printf '\n# Completed plans retired by scripts/archive-plan.sh (local history)\n.planning/.archive/\n' >> "$gitignore"
   planning_ok "Added .planning/.archive/ to .gitignore (active plans stay shareable)"
+}
+
+# planning_seed_rules <repo-root>
+#
+# Copies each templates/rules/*.md into <root>/.claude/rules/ when that file is absent.
+# Written once: after that the rule is the repo's, so an existing file is never
+# overwritten — not even under PLANNING_FORCE, which is for plan artifacts.
+#
+# The git-workflow section is the exception: it is appended to the repo's existing git
+# workflow rule (babel-fish writes git-workflow.md) or creates one. Its first line is a
+# marker, so it is added once and a repo's edits to it stick.
+#
+# Reads only the plugin's own templates, never <root>/templates: that name is generic
+# enough that a project could have one, and its files are not ours to load.
+# init-planning.sh (sm) keeps a self-contained copy of this function.
+planning_seed_rules() {
+  local root="$1" src dest target
+  local tpl_dir rules="${1}/.claude/rules"
+  tpl_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../../templates"
+  for src in "$tpl_dir"/rules/*.md; do
+    [[ -f "$src" ]] || continue
+    dest="${rules}/$(basename "$src")"
+    [[ -e "$dest" ]] && continue
+    if mkdir -p "$rules" && cp "$src" "$dest"; then
+      planning_ok "Added .claude/rules/$(basename "$src")"
+    else
+      planning_warn "Could not write ${dest} (skipped)"
+    fi
+  done
+
+  local section="${tpl_dir}/git-workflow-section.md"
+  [[ -f "$section" ]] || return 0
+  target=$(ls "$rules" 2>/dev/null | grep -iE 'git.?(work)?flow.*\.md$' | head -1)
+  if [[ -n "$target" ]]; then
+    target="${rules}/${target}"
+    grep -qF "$(head -1 "$section")" "$target" && return 0
+    if { printf '\n'; cat "$section"; } >> "$target"; then
+      planning_ok "Added persistent-plan requirements to .claude/rules/$(basename "$target")"
+    else
+      planning_warn "Could not update ${target} (skipped)"
+    fi
+  elif mkdir -p "$rules" && { printf '# Git Workflow\n\n'; cat "$section"; } > "${rules}/git-workflow.md"; then
+    planning_ok "Added .claude/rules/git-workflow.md"
+  else
+    planning_warn "Could not write ${rules}/git-workflow.md (skipped)"
+  fi
+  return 0
 }

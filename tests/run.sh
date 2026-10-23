@@ -960,5 +960,75 @@ assert_eq "" "$HOOK_OUT" "no runtime and nothing to say produces no output at al
 rm -rf "$WS" "$NORT"
 
 ###############################################################################
+echo "rules seeding: templates/rules -> .claude/rules"
+###############################################################################
+RULE_SRC="$REPO_DIR/templates/rules/persistent-planning.md"
+
+# --- sm: written once, verbatim, then the repo owns it ------------------------
+WS=$(new_workspace)
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "First" >/dev/null
+RULE="$WS/.claude/rules/persistent-planning.md"
+if cmp -s "$RULE_SRC" "$RULE"; then pass "sm init seeds the rule verbatim"; else fail "sm init seeds the rule verbatim"; fi
+echo "EDITED BY USER" > "$RULE"
+PLANNING_FORCE=1 CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "Second" >/dev/null
+assert_eq "EDITED BY USER" "$(cat "$RULE")" "an existing rule is never overwritten, even with PLANNING_FORCE=1"
+rm -rf "$WS"
+
+# --- lg: every init script seeds, and other rules are left alone --------------
+WS=$(lg_workspace)
+mkdir -p "$WS/.claude/rules"
+echo "theirs" > "$WS/.claude/rules/secrets.md"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-phase.sh" "Rules" >/dev/null
+RULE="$WS/.claude/rules/persistent-planning.md"
+if cmp -s "$RULE_SRC" "$RULE"; then pass "init-phase seeds the rule beside existing rules"; else fail "init-phase seeds the rule beside existing rules"; fi
+assert_eq "theirs" "$(cat "$WS/.claude/rules/secrets.md")" "seeding leaves other rules untouched"
+rm "$RULE"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-task.sh" "T" --parent rules >/dev/null
+assert_file "$RULE" "init-task re-seeds a missing rule"
+rm "$RULE"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-atom.sh" "A" --parent t >/dev/null
+assert_file "$RULE" "init-atom re-seeds a missing rule"
+
+# --- a project's own templates/rules is not ours to load ----------------------
+mkdir -p "$WS/templates/rules"
+echo "not ours" > "$WS/templates/rules/stray.md"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-task.sh" "T2" --parent rules >/dev/null
+if [[ ! -e "$WS/.claude/rules/stray.md" ]]; then pass "a project-local templates/rules is ignored"
+else fail "a project-local templates/rules is ignored"; fi
+rm -rf "$WS"
+
+# --- git workflow: create when absent, append once when present ---------------
+MARKER="<!-- persistent-planning:git-workflow -->"
+marker_count() { grep -cF "$MARKER" "$1" 2>/dev/null || true; }
+
+WS=$(new_workspace)
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "One" >/dev/null
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "Two" >/dev/null
+GW="$WS/.claude/rules/git-workflow.md"
+assert_eq "1" "$(marker_count "$GW")" "sm creates git-workflow.md with the section exactly once"
+assert_contains "$GW" "Finish with a single PR" "the created git-workflow.md carries the requirements"
+rm -rf "$WS"
+
+WS=$(lg_workspace)
+mkdir -p "$WS/.claude/rules"
+printf '# Theirs\n\nbabel-fish rules\n' > "$WS/.claude/rules/git-workflow.md"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-phase.sh" "Git" >/dev/null
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-task.sh" "T" --parent git >/dev/null
+GW="$WS/.claude/rules/git-workflow.md"
+assert_eq "# Theirs" "$(head -1 "$GW")" "an existing git-workflow.md keeps its own content first"
+assert_contains "$GW" "babel-fish rules" "an existing git-workflow.md keeps its own content"
+assert_eq "1" "$(marker_count "$GW")" "lg appends the section to an existing rule exactly once"
+rm -rf "$WS"
+
+WS=$(lg_workspace)
+mkdir -p "$WS/.claude/rules"
+echo "# Our flow" > "$WS/.claude/rules/team-gitflow.md"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-phase.sh" "Flow" >/dev/null
+assert_eq "1" "$(marker_count "$WS/.claude/rules/team-gitflow.md")" "any git workflow rule is found by name, not just git-workflow.md"
+if [[ ! -e "$WS/.claude/rules/git-workflow.md" ]]; then pass "no second git workflow rule is created beside it"
+else fail "no second git workflow rule is created beside it"; fi
+rm -rf "$WS"
+
+###############################################################################
 printf '\n%d passed, %d failed\n' "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]
