@@ -38,3 +38,9 @@ reconstructing context after time away.]
 
 ### 2026-10-23 — Initialized
 - Notes file created
+
+## Results (2026-10-23)
+
+- `npm test`: **182 passed, 0 failed** (32 new asserts in the "hewtd-aware docs closer" section).
+- Gate check verified against real output: all boxes ticked in a hewtd project reads `in progress 24/24`, not COMPLETE.
+- Mutation check: forcing detection to false in both lib and sm turned **10** asserts red; restored from git.

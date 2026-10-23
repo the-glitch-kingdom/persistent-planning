@@ -1039,5 +1039,103 @@ else fail "no second git workflow rule is created beside it"; fi
 rm -rf "$WS"
 
 ###############################################################################
+echo "hewtd-aware docs closer"
+###############################################################################
+HEWTD_LINE="a full hit-em-with-the-docs pass to create/update/deprecate as many docs as needed to capture all our changes"
+OLD_SM_LINE="- [ ] Phase 7: Documentation pass -- create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc.. (MANDATORY)"
+DOCS_SLUG="documentation-pass-create-update-deprecate-docs"
+
+no_placeholders() { # <dir> <label>
+  if grep -rq PLACEHOLDER "$1"; then fail "$2"; grep -rn PLACEHOLDER "$1" | head -3
+  else pass "$2"; fi
+}
+
+# --- detection is per project ------------------------------------------------
+WS=$(new_workspace)
+uses() { (source "$REPO_DIR/scripts/lib/planning.sh"; planning_uses_hewtd "$WS") && echo yes || echo no; }
+assert_eq "no" "$(uses)" "a project with no docs tree does not use hewtd"
+mkdir "$WS/.documentation"
+assert_eq "yes" "$(uses)" "a .documentation/ tree means hewtd"
+rmdir "$WS/.documentation"; mkdir -p "$WS/.claude"; touch "$WS/.claude/hit-em-with-the-docs.json"
+assert_eq "yes" "$(uses)" "hewtd's project config alone means hewtd"
+rm -rf "$WS"
+
+# --- a machine-wide install is not a project signal --------------------------
+WS=$(lg_workspace); FAKE_HOME=$(new_workspace)
+mkdir -p "$FAKE_HOME/.claude/plugins"
+echo '{"plugins":{"hit-em-with-the-docs@hit-em-with-the-docs-marketplace":[{}]}}' \
+  > "$FAKE_HOME/.claude/plugins/installed_plugins.json"
+HOME="$FAKE_HOME" CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-phase.sh" "Global" >/dev/null
+if grep -qF "$HEWTD_LINE" "$WS/.planning/global/phase.md"; then
+  fail "a machine-wide hewtd install alone keeps the default docs closer"
+else pass "a machine-wide hewtd install alone keeps the default docs closer"; fi
+rm -rf "$WS" "$FAKE_HOME"
+
+# --- lg, hewtd project --------------------------------------------------------
+WS=$(lg_workspace); mkdir "$WS/.documentation"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-phase.sh" "Docs" >/dev/null
+PH="$WS/.planning/docs/phase.md"; DC="$WS/.planning/docs/$DOCS_SLUG/task.md"
+assert_contains "$PH" "$HEWTD_LINE" "lg hewtd: phase.md docs closer is a full hewtd pass"
+assert_contains "$PH" "Never include secrets or passwords" "lg hewtd: phase.md docs closer forbids secrets"
+assert_contains "$DC" "title: Documentation pass — full hit-em-with-the-docs pass" "lg hewtd: closer title"
+assert_contains "$DC" "knowledge-base fact tagged \`gotcha\`" "lg hewtd: gotchas become KB facts"
+assert_contains "$DC" "Write KB articles" "lg hewtd: KB articles atom"
+assert_contains "$DC" "Never include secrets, passwords, tokens or keys" "lg hewtd: never-secrets atom"
+assert_contains "$DC" "npx hewtd audit" "lg hewtd: audit atom"
+no_placeholders "$WS/.planning" "lg hewtd: no placeholder left"
+# the closer is still last after adding tasks, and still gates completion
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-task.sh" "Real work" --parent docs >/dev/null
+mapfile -t TL < <(task_lines "$PH")
+case "${TL[-1]}" in *"($DOCS_SLUG)"*"$HEWTD_LINE"*|*"$HEWTD_LINE"*"\`$DOCS_SLUG\`"*) pass "lg hewtd: docs closer is still last after adding a task" ;;
+  *) fail "lg hewtd: docs closer is still last after adding a task"; printf '       got: %s\n' "${TL[-1]}" ;; esac
+find "$WS/.planning/docs" -name '*.md' -exec sed -i 's/- \[ \]/- [x]/g' {} +
+case "$(CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/plan-status.sh" 2>/dev/null | grep ' docs ')" in
+  *COMPLETE*) fail "lg hewtd: the closer gate still blocks COMPLETE" ;;
+  *) pass "lg hewtd: the closer gate still blocks COMPLETE" ;; esac
+# re-running init-phase leaves an existing phase.md alone
+echo "EDITED BY USER" >> "$PH"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-phase.sh" "Docs" >/dev/null 2>&1
+assert_contains "$PH" "EDITED BY USER" "lg hewtd: re-running init-phase does not rewrite phase.md"
+rm -rf "$WS"
+
+# --- lg, plain project (regression: hewtd atoms leaked into every plan) -------
+WS=$(lg_workspace)
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-phase.sh" "Plain" >/dev/null
+PH="$WS/.planning/plain/phase.md"; DC="$WS/.planning/plain/$DOCS_SLUG/task.md"
+assert_contains "$PH" "**Documentation pass — create/update/deprecate as many docs as needed to capture what was done, where it lives, how to troubleshoot it, etc. etc.. etc..** (\`$DOCS_SLUG\`) (MANDATORY — last)" \
+  "lg plain: docs closer line is unchanged"
+if grep -qF "npx hewtd audit" "$DC"; then fail "lg plain: no unconditional hewtd audit atom"
+else pass "lg plain: no unconditional hewtd audit atom"; fi
+if grep -qF -- "- [ ] Retire superseded docs with \`npx hewtd archive" "$DC"; then fail "lg plain: no unconditional hewtd archive atom"
+else pass "lg plain: no unconditional hewtd archive atom"; fi
+assert_contains "$DC" "Never include secrets, passwords, tokens or keys" "lg plain: never-secrets atom"
+assert_contains "$DC" "If hit-em-with-the-docs is installed you MUST use it" "lg plain: keeps the if-installed fallback"
+no_placeholders "$WS/.planning" "lg plain: no placeholder left"
+rm -rf "$WS"
+
+# --- sm, both variants --------------------------------------------------------
+WS=$(new_workspace)
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "Plain" >/dev/null
+TP="$WS/.planning/plain/task_plan.md"
+assert_eq "$OLD_SM_LINE" "$(grep 'Phase 7:' "$TP")" "sm plain: Phase 7 is byte-identical to before"
+assert_contains "$TP" "Never include secrets or passwords." "sm: the note forbids secrets"
+no_placeholders "$WS/.planning" "sm plain: no placeholder left"
+mkdir "$WS/.documentation"
+CLAUDE_PROJECT_DIR="$WS" bash "$REPO_DIR/scripts/init-planning.sh" "Docs" >/dev/null
+TP="$WS/.planning/docs/task_plan.md"
+assert_contains "$TP" "Phase 7: Documentation pass -- $HEWTD_LINE" "sm hewtd: Phase 7 is a full hewtd pass"
+assert_contains "$TP" "Never include secrets or passwords (MANDATORY)" "sm hewtd: Phase 7 forbids secrets and stays mandatory"
+case "$(checkbox_lines "$TP" "## Phases" | tail -1)" in *"Phase 7: Documentation pass"*) pass "sm hewtd: docs phase is last" ;;
+  *) fail "sm hewtd: docs phase is last" ;; esac
+no_placeholders "$WS/.planning" "sm hewtd: no placeholder left"
+rm -rf "$WS"
+
+# --- the package ships what the init scripts read ------------------------------
+PACK=$(cd "$REPO_DIR" && npm pack --dry-run 2>&1)
+for f in templates/lg/phase.md scripts/init-phase.sh scripts/init-planning.sh scripts/lib/planning.sh; do
+  case "$PACK" in *"$f"*) pass "npm package ships $f" ;; *) fail "npm package ships $f" ;; esac
+done
+
+###############################################################################
 printf '\n%d passed, %d failed\n' "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]
