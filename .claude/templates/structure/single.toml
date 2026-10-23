@@ -1,0 +1,73 @@
+# Layout: single -- one project, flat layout, dev (localhost) -> stg -> prod (cloud).
+#
+# A reference, not a rule. `structure-check.py --bootstrap --layout single` copies it,
+# marks each folder active (exists) or planned (not yet), adds a folder for anything
+# it doesn't cover, and lists the remaining differences in `exceptions` by exact
+# path -- adopting it blocks nothing. The
+# structure-bootstrap skill reads it to suggest purposes and changes.
+mode = "single"
+env_file = "infra/env/.env.example"  # the ONE committed env template (every key, every env and app)
+root_files = [
+  "README.md", "LICENSE", "CHANGELOG.md", "CLAUDE.md", "AGENTS.md",
+  ".gitignore", ".gitattributes", ".editorconfig", ".dockerignore", ".mcp.json",
+  "package.json", "package-lock.json", "*.lock", "tsconfig*.json", "*.config.js", "*.config.ts",
+  "pyproject.toml", "requirements*.txt", "go.mod", "go.sum", "Cargo.toml",
+  "Makefile", "Dockerfile",
+]
+
+[[folder]]
+path = "src"
+purpose = "Application source"
+
+[[folder]]
+path = "tests"
+purpose = "Tests"
+
+[[folder]]
+path = "scripts"
+purpose = "Developer and ops scripts"
+
+[[folder]]
+path = "migrations"
+purpose = "Database migrations -- one folder, the same path forward in every environment"
+
+[[folder]]
+path = "infra/compose"
+purpose = "Compose files: base.yml shared, dev.yml for localhost, remote.yml for the cloud environments"
+holds = ["*.yml", "*.yaml"]
+
+[[folder]]
+path = "infra/env"
+purpose = "Env config: .env.example is the one template (every key, placeholders) and your local .env sits beside it, gitignored. Stg/prod values come from the secret manager or CI, never from files here; <env>/ holds only non-secret per-env deltas"
+holds = [".env.example", "README.md", "*/**"]
+
+[[folder]]
+path = "infra/deploy"
+purpose = "Cloud deploy config: base/ shared, <env>/ holds only what differs (Terraform, k8s, platform files)"
+
+[[folder]]
+path = ".github"
+purpose = "CI workflows -- one deploy workflow that takes the environment as input"
+
+[[folder]]
+path = ".claude"
+purpose = "Claude Code config: rules, skills, the project map and this manifest"
+
+[[folder]]
+path = ".documentation"
+purpose = "Prose docs (hit-em-with-the-docs)"
+
+[[environment]]
+name = "dev"
+target = "local"
+promotes_to = "stg"
+
+[[environment]]
+name = "stg"
+target = "cloud"
+promotes_to = "prod"
+mirrors = "prod"
+
+[[environment]]
+name = "prod"
+target = "cloud"

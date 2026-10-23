@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# ── Codebase Mapper: regenerate project map on relevant changes ──
+STAGED_FILES=$(git diff --cached --name-only 2>/dev/null || true)
+EXTENSIONS_PATTERN='\.(py|ts|tsx|js|jsx|go|java|yaml|yml)$|docker-compose|package\.json|Cargo\.toml|go\.mod'
+if echo "$STAGED_FILES" | grep -qE "$EXTENSIONS_PATTERN" 2>/dev/null; then
+    MAP_SCRIPT=".claude/project-map/generate.py"
+    if [ -f "$MAP_SCRIPT" ]; then
+        PYTHON=""
+        if [ -f ".venv/bin/python3" ]; then PYTHON=".venv/bin/python3"
+        elif command -v python3 &>/dev/null; then PYTHON="python3"
+        elif command -v python &>/dev/null; then PYTHON="python"
+        fi
+        if [ -n "$PYTHON" ]; then
+            echo "[codebase-mapper] Regenerating project map..."
+            if $PYTHON "$MAP_SCRIPT" 2>/dev/null; then
+                git add .claude/project-map/PROJECT_MAP.md .claude/project-map/checksums.json \
+                        .claude/project-map/sections/*.md .claude/project-map/learned-vocabulary.json 2>/dev/null || true
+            fi
+        fi
+    fi
+fi
+# ── End Codebase Mapper ──────────────────────────────────────────────────────
+
+# ── Context Check: auto-loaded instructions stay in budget, pointers resolve ──
+if git diff --cached --name-only 2>/dev/null | grep -qE '^(\.claude/)?CLAUDE(\.local)?\.md$|^\.claude/rules/.*\.md$'; then
+    CHECK_SCRIPT=".claude/project-map/context-check.py"
+    if [ -f "$CHECK_SCRIPT" ]; then
+        PYTHON=""
+        if [ -f ".venv/bin/python3" ]; then PYTHON=".venv/bin/python3"
+        elif command -v python3 &>/dev/null; then PYTHON="python3"
+        elif command -v python &>/dev/null; then PYTHON="python"
+        fi
+        if [ -n "$PYTHON" ] && ! $PYTHON "$CHECK_SCRIPT"; then
+            echo "[context-check] Commit blocked. Fix the FAIL lines above, or add flags (--budget N, --map-style) to this call in .githooks/pre-commit." >&2
+            exit 1
+        fi
+    fi
+fi
+# ── End Context Check ────────────────────────────────────────────────────────
+
+# ── Structure Check: files land where .claude/structure.toml says (#22) ──────
+# Opt-in: runs only once the repo has a manifest. On Python < 3.11 it warns and passes.
+if [ -f ".claude/structure.toml" ]; then
+    CHECK_SCRIPT=".claude/project-map/structure-check.py"
+    if [ -f "$CHECK_SCRIPT" ]; then
+        PYTHON=""
+        if [ -f ".venv/bin/python3" ]; then PYTHON=".venv/bin/python3"
+        elif command -v python3 &>/dev/null; then PYTHON="python3"
+        elif command -v python &>/dev/null; then PYTHON="python"
+        fi
+        if [ -n "$PYTHON" ] && ! $PYTHON "$CHECK_SCRIPT" --staged; then
+            echo "[structure-check] Commit blocked. Each FAIL above has a fix: line -- or change .claude/structure.toml if the structure should change." >&2
+            exit 1
+        fi
+    fi
+fi
+# ── End Structure Check ──────────────────────────────────────────────────────
