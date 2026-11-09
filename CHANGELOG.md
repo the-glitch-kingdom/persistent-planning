@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- **A plan's branch is cut from `main`.** Step 2 of the git-workflow section read
+  "Cut a new branch" and only implied `main` through step 1's sync. It now reads
+  "Cut a branch from `main`", with the base in the command
+  (`git checkout -b <type>/<plan-slug> main`). The section is appended once, so a
+  repo that already has it keeps the old wording until edited.
+
 ## [3.6.1] - 2026-10-23
 
 ### Fixed — archived plans stayed tracked in git (#26)
